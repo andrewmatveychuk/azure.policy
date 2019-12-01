@@ -1,5 +1,9 @@
 # azure.policy
-Sample ARM templates for Azure policy and policy initiative definitions
+Sample ARM templates for Azure policy and policy initiative definitions.
+
+Before starting to work with these templates, read the information in the following blog posts:
+
+* [How to deploy Azure Policies with ARM templates](https://andrewmatveychuk.com/how-to-deploy-azure-policies-with-arm-templates/)
 
 ## Getting Started
 
