@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
 
     "variables": {
-        "policyName": "enforce-naming-for-resources-pd",
+        "policyName": "enforce-naming-for-resource-pd",
         "policyDisplayName": "Enforce naming convention for a specific resource type",
         "policyDescription": "This policy enforces a naming pattern a specific resource type."
     },
@@ -35,7 +35,7 @@
                         "metadata": {
                             "displayName": "Resource type abbreviation",
                             "description": "A short name for Azure resource type to use in resource names"
-                        },
+                        }
                     }
                 },
                 "policyRule": {
