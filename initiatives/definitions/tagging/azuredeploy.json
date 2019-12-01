@@ -3,8 +3,8 @@
     "contentVersion": "1.0.0.0",
     "variables": {
         "policySetName": "enforce-resource-tagging-psd",
-        "policySetDisplayName": "Enforce using mandatory tags for all resources",
-        "policySetDescription": "This policy enforces the usage of mandatory tags for all Azure resources.",
+        "policySetDisplayName": "Enforce using mandatory tags for resource groups",
+        "policySetDescription": "This policy initiative enforces the usage of mandatory tags for resource groups.",
         "policyDefinitionForResourceGroupTagging": "enforce-resource-group-tags-pd"
 
     },

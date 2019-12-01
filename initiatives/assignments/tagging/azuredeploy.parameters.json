@@ -12,9 +12,9 @@
             "metadata": {
                 "comment": "Policy parameters should be provided as an object: https://docs.microsoft.com/en-us/azure/azure-resource-manager/deploy-to-subscription#assign-policy"
             },
-            "value": {
+            "value": { //Input parameter as an object for initiative definition
                 "allowedEnvironmentTagValues": {
-                    "value": [
+                    "value": [ //Inner object as parameter for policy definition 
                         "Production",
                         "Staging",
                         "Test",
