@@ -49,7 +49,7 @@
                             {
                                 "not": {
                                     "field": "name",
-                                    "match": "[[concat('..-', parameters('resourceAbbreviation')]"
+                                    "match": "[[concat('..-', parameters('resourceAbbreviation'))]"
                                 }
                             },
                             {
@@ -98,7 +98,7 @@
                             {
                                 "not": {
                                     "field": "name",
-                                    "match": "[[concat('...-', parameters('resourceAbbreviation')]"
+                                    "match": "[[concat('...-', parameters('resourceAbbreviation'))]"
                                 }
                             },
                             {
@@ -147,7 +147,7 @@
                             {
                                 "not": {
                                     "field": "name",
-                                    "match": "[[concat('....-', parameters('resourceAbbreviation')]"
+                                    "match": "[[concat('....-', parameters('resourceAbbreviation'))]"
                                 }
                             },
                             {
@@ -196,7 +196,7 @@
                             {
                                 "not": {
                                     "field": "name",
-                                    "match": "[[concat('.....-', parameters('resourceAbbreviation')]"
+                                    "match": "[[concat('.....-', parameters('resourceAbbreviation'))]"
                                 }
                             },
                             {
@@ -245,7 +245,7 @@
                             {
                                 "not": {
                                     "field": "name",
-                                    "match": "[[concat('......-', parameters('resourceAbbreviation')]"
+                                    "match": "[[concat('......-', parameters('resourceAbbreviation'))]"
                                 }
                             },
                             {
@@ -294,7 +294,7 @@
                             {
                                 "not": {
                                     "field": "name",
-                                    "match": "[[concat('.......-', parameters('resourceAbbreviation')]"
+                                    "match": "[[concat('.......-', parameters('resourceAbbreviation'))]"
                                 }
                             },
                             {
@@ -343,7 +343,7 @@
                             {
                                 "not": {
                                     "field": "name",
-                                    "match": "[[concat('........-', parameters('resourceAbbreviation')]"
+                                    "match": "[[concat('........-', parameters('resourceAbbreviation'))]"
                                 }
                             },
                             {
@@ -392,7 +392,7 @@
                             {
                                 "not": {
                                     "field": "name",
-                                    "match": "[[concat('.........-', parameters('resourceAbbreviation')]"
+                                    "match": "[[concat('.........-', parameters('resourceAbbreviation'))]"
                                 }
                             },
                             {
@@ -441,7 +441,7 @@
                             {
                                 "not": {
                                     "field": "name",
-                                    "match": "[[concat('..........-', parameters('resourceAbbreviation')]"
+                                    "match": "[[concat('..........-', parameters('resourceAbbreviation'))]"
                                 }
                             },
                             {
@@ -490,7 +490,7 @@
                             {
                                 "not": {
                                     "field": "name",
-                                    "match": "[[concat('...........-', parameters('resourceAbbreviation')]"
+                                    "match": "[[concat('...........-', parameters('resourceAbbreviation'))]"
                                 }
                             },
                             {
@@ -539,7 +539,7 @@
                             {
                                 "not": {
                                     "field": "name",
-                                    "match": "[[concat('............-', parameters('resourceAbbreviation')]"
+                                    "match": "[[concat('............-', parameters('resourceAbbreviation'))]"
                                 }
                             },
                             {
