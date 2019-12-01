@@ -1,0 +1,55 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "prefix": {
+            "type": "string",
+            "metadata": {
+                "description": "Prefix of the resource group to create."
+            }
+        },
+        "location": {
+            "type": "string",
+            "metadata": {
+                "description": "Location for the resource group.",
+                "strongType": "location"
+            },
+            "defaultValue": "West Europe"
+        },
+        "environment": {
+            "type": "string",
+            "metadata": {
+                "description": "Target environment name to use inresource names."
+            },
+            "defaultValue": "test"
+        },
+        "utcValue": {
+            "type": "string",
+            "metadata": {
+                "description": "The current UTC datetime value to create a unique resource group name"
+            },
+            "defaultValue": "[utcNow()]"
+        }
+    },
+    "variables": {
+        "uniqueName": "[concat(parameters('prefix'), '-rg-', parameters('environment'), '-', uniqueString(subscription().Id), parameters('utcValue'))]"
+    },
+    "resources": [
+        {
+            "name": "[variables('uniqueName')]",
+            "type": "Microsoft.Resources/resourceGroups",
+            "apiVersion": "2018-05-01",
+            "location": "[parameters('location')]"
+        }
+    ],
+    "outputs": {
+        "resourceGroupId": {
+            "type": "string",
+            "value": "[resourceId('Microsoft.Resources/resourceGroups', variables('uniqueName'))]"
+        },
+        "resourceGroupName": {
+            "type": "string",
+            "value": "[variables('uniqueName')]"
+        }
+    }
+}

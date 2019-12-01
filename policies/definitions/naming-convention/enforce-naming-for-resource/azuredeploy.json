@@ -1,0 +1,596 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+
+    "variables": {
+        "policyName": "enforce-naming-for-resources-pd",
+        "policyDisplayName": "Enforce naming convention for a specific resource type",
+        "policyDescription": "This policy enforces a naming pattern a specific resource type."
+    },
+
+    "resources": [
+        {
+            "type": "Microsoft.Authorization/policyDefinitions",
+            "name": "[variables('policyName')]",
+            "apiVersion": "2019-09-01",
+            "properties": {
+                "displayName": "[variables('policyDisplayName')]",
+                "policyType": "Custom",
+                "description": "[variables('policyDescription')]",
+                "metadata": {
+                    "category": "Naming convention"
+                },
+                "mode": "All",
+                "parameters": {
+                    "resourceType": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Resource type",
+                            "description": "Resource type to enforce naming pattern.",
+                            "strongType": "resourceTypes"
+                        }
+                    },
+                    "resourceAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Resource type abbreviation",
+                            "description": "A short name for Azure resource type to use in resource names"
+                        },
+                    }
+                },
+                "policyRule": {
+                    "if": {
+                        "allOf": [
+                            {
+                                "field": "type",
+                                "equals": "[[parameters('resourceType')]" //Use an additional left bracket here, so the function is not invoked in the ARM template itself: https://docs.microsoft.com/en-us/azure/azure-resource-manager/template-expressions#escape-characters 
+                            },
+                            // 2 symbol prefix
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('..-', parameters('resourceAbbreviation')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('..-', parameters('resourceAbbreviation'), '-.')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('..-', parameters('resourceAbbreviation'), '-..')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('..-', parameters('resourceAbbreviation'), '-...')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('..-', parameters('resourceAbbreviation'), '-....')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('..-', parameters('resourceAbbreviation'), '-.....')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('..-', parameters('resourceAbbreviation'), '-.............')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('..-', parameters('resourceAbbreviation'), '-.............................')]"
+                                }
+                            },
+                            // 3 symbol prefix
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('...-', parameters('resourceAbbreviation')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('...-', parameters('resourceAbbreviation'), '-.')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('...-', parameters('resourceAbbreviation'), '-..')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('...-', parameters('resourceAbbreviation'), '-...')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('...-', parameters('resourceAbbreviation'), '-....')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('...-', parameters('resourceAbbreviation'), '-.....')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('...-', parameters('resourceAbbreviation'), '-.............')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('...-', parameters('resourceAbbreviation'), '-.............................')]"
+                                }
+                            },
+                            // 4 symbol prefix
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('....-', parameters('resourceAbbreviation')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('....-', parameters('resourceAbbreviation'), '-.')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('....-', parameters('resourceAbbreviation'), '-..')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('....-', parameters('resourceAbbreviation'), '-...')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('....-', parameters('resourceAbbreviation'), '-....')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('....-', parameters('resourceAbbreviation'), '-.....')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('....-', parameters('resourceAbbreviation'), '-.............')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('....-', parameters('resourceAbbreviation'), '-.............................')]"
+                                }
+                            },
+                            // 5 symbol prefix
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('.....-', parameters('resourceAbbreviation')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('.....-', parameters('resourceAbbreviation'), '-.')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('.....-', parameters('resourceAbbreviation'), '-..')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('.....-', parameters('resourceAbbreviation'), '-...')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('.....-', parameters('resourceAbbreviation'), '-....')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('.....-', parameters('resourceAbbreviation'), '-.....')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('.....-', parameters('resourceAbbreviation'), '-.............')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('.....-', parameters('resourceAbbreviation'), '-.............................')]"
+                                }
+                            },
+                            // 6 symbol prefix
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('......-', parameters('resourceAbbreviation')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('......-', parameters('resourceAbbreviation'), '-.')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('......-', parameters('resourceAbbreviation'), '-..')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('......-', parameters('resourceAbbreviation'), '-...')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('......-', parameters('resourceAbbreviation'), '-....')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('......-', parameters('resourceAbbreviation'), '-.....')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('......-', parameters('resourceAbbreviation'), '-.............')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('......-', parameters('resourceAbbreviation'), '-.............................')]"
+                                }
+                            },
+                            // 7 symbol prefix
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('.......-', parameters('resourceAbbreviation')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('.......-', parameters('resourceAbbreviation'), '-.')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('.......-', parameters('resourceAbbreviation'), '-..')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('.......-', parameters('resourceAbbreviation'), '-...')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('.......-', parameters('resourceAbbreviation'), '-....')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('.......-', parameters('resourceAbbreviation'), '-.....')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('.......-', parameters('resourceAbbreviation'), '-.............')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('.......-', parameters('resourceAbbreviation'), '-.............................')]"
+                                }
+                            },
+                            // 8 symbol prefix
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('........-', parameters('resourceAbbreviation')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('........-', parameters('resourceAbbreviation'), '-.')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('........-', parameters('resourceAbbreviation'), '-..')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('........-', parameters('resourceAbbreviation'), '-...')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('........-', parameters('resourceAbbreviation'), '-....')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('........-', parameters('resourceAbbreviation'), '-.....')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('........-', parameters('resourceAbbreviation'), '-.............')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('........-', parameters('resourceAbbreviation'), '-.............................')]"
+                                }
+                            },
+                            // 9 symbol prefix
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('.........-', parameters('resourceAbbreviation')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('.........-', parameters('resourceAbbreviation'), '-.')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('.........-', parameters('resourceAbbreviation'), '-..')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('.........-', parameters('resourceAbbreviation'), '-...')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('.........-', parameters('resourceAbbreviation'), '-....')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('.........-', parameters('resourceAbbreviation'), '-.....')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('.........-', parameters('resourceAbbreviation'), '-.............')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('.........-', parameters('resourceAbbreviation'), '-.............................')]"
+                                }
+                            },
+                            // 10 symbol prefix
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('..........-', parameters('resourceAbbreviation')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('..........-', parameters('resourceAbbreviation'), '-.')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('..........-', parameters('resourceAbbreviation'), '-..')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('..........-', parameters('resourceAbbreviation'), '-...')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('..........-', parameters('resourceAbbreviation'), '-....')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('..........-', parameters('resourceAbbreviation'), '-.....')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('..........-', parameters('resourceAbbreviation'), '-.............')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('..........-', parameters('resourceAbbreviation'), '-.............................')]"
+                                }
+                            },
+                            // 11 symbol prefix
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('...........-', parameters('resourceAbbreviation')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('...........-', parameters('resourceAbbreviation'), '-.')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('...........-', parameters('resourceAbbreviation'), '-..')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('...........-', parameters('resourceAbbreviation'), '-...')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('...........-', parameters('resourceAbbreviation'), '-....')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('...........-', parameters('resourceAbbreviation'), '-.....')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('...........-', parameters('resourceAbbreviation'), '-.............')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('...........-', parameters('resourceAbbreviation'), '-.............................')]"
+                                }
+                            },
+                            // 12 symbol prefix
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('............-', parameters('resourceAbbreviation')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('............-', parameters('resourceAbbreviation'), '-.')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('............-', parameters('resourceAbbreviation'), '-..')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('............-', parameters('resourceAbbreviation'), '-...')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('............-', parameters('resourceAbbreviation'), '-....')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('............-', parameters('resourceAbbreviation'), '-.....')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('............-', parameters('resourceAbbreviation'), '-.............')]"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "[[concat('............-', parameters('resourceAbbreviation'), '-.............................')]"
+                                }
+                            }
+                        ]
+                    },
+                    "then": {
+                        "effect": "deny"
+                    }
+                }
+            }
+        }
+    ]
+}

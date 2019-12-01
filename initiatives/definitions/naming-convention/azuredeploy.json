@@ -1,0 +1,795 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "variables": {
+        "policySetName": "enforce-naming-for-resources-psd",
+        "policySetDisplayName": "Enforce naming convention for common resource types",
+        "policySetDescription": "This policy enforces a naming pattern common resource types.",
+        "policyDefinitionForNamingResources": "enforce-naming-for-resource-pd",
+        "policyDefinitionForResourceGroups": "enforce-naming-for-resource-groups-pd"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Authorization/policySetDefinitions",
+            "apiVersion": "2019-09-01",
+            "name": "[variables('policySetName')]",
+            "properties": {
+                "displayName": "[variables('policySetDisplayName')]",
+                "description": "[variables('policySetDescription')]",
+                "policyType": "Custom",
+                "metadata": {
+                    "category": "Naming convention"
+                },
+                "parameters": {
+                    "automationAccountAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Automation accounts abbreviation",
+                            "description": "A short name for Automation account resource type to use in resource names"
+                        }
+                    },
+                    "applicationGatewayAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Application Gateways abbreviation",
+                            "description": "A short name for Application Gateways resource type to use in resource names"
+                        }
+                    },
+                    "applicationInsightsAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Application Insights abbreviation",
+                            "description": "A short name for Application Insights resource type to use in resource names"
+                        }
+                    },
+                    "apiManagementServiceAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "API Management service abbreviation",
+                            "description": "A short name for API Management service resource type to use in resource names"
+                        }
+                    },
+                    "availabilitySetAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Availability Sets abbreviation",
+                            "description": "A short name for Availability Sets resource type to use in resource names"
+                        }
+                    },
+                    "applicationServiceEnvironmentAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Application Service Environments abbreviation",
+                            "description": "A short name for Application Service Environment resource type to use in resource names"
+                        }
+                    },
+                    "applicationSecurityGroupAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Application Security Groups abbreviation",
+                            "description": "A short name for Application Security Group resource type to use in resource names"
+                        }
+                    },
+                    "appServicePlanAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "App Service plans abbreviation",
+                            "description": "A short name for App Service plan resource type to use in resource names"
+                        }
+                    },
+                    "cdnProfileAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "CDN profiles abbreviation",
+                            "description": "A short name for CDN profile resource type to use in resource names"
+                        }
+                    },
+                    "gatewayConnectionAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Gateway connections abbreviation",
+                            "description": "A short name for Gateway connection resource type to use in resource names"
+                        }
+                    },
+                    "cognitiveServicesAccountAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Cognitive Services accounts abbreviation",
+                            "description": "A short name for Cognitive Services account resource type to use in resource names"
+                        }
+                    },
+                    "cosmosDBAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Cosmos DBs abbreviation",
+                            "description": "A short name for Cosmos DB resource type to use in resource names"
+                        }
+                    },
+                    "sqlDatabaseAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "SQL Databases abbreviation",
+                            "description": "A short name for SQL Database resource type to use in resource names"
+                        }
+                    },
+                    "sqlDataWarehouseAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "SQL Data Warehouses abbreviation",
+                            "description": "A short name for SQL Data Warehouse (Azure Analysis Services) resource type to use in resource names"
+                        }
+                    },
+                    "eventHubAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Event hubs abbreviation",
+                            "description": "A short name for Event hub resource type to use in resource names"
+                        }
+                    },
+                    "eventHubNamespaceAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Event Hub namespaces abbreviation",
+                            "description": "A short name for Event Hub namespace resource type to use in resource names"
+                        }
+                    },
+                    "keyVaultAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Key Vaults abbreviation",
+                            "description": "A short name for Key Vault resource type to use in resource names"
+                        }
+                    },
+                    "logAnalyticsWorkspaceAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Log Analytics workspaces abbreviation",
+                            "description": "A short name for Log Analytics workspace type to use in resource names"
+                        }
+                    },
+                    "logicAppAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Logic apps abbreviation",
+                            "description": "A short name for Logic app resource type to use in resource names"
+                        }
+                    },
+                    "loadBalancerAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Load Balancers abbreviation",
+                            "description": "A short name for Load Balancer resource type to use in resource names"
+                        }
+                    },
+                    "localNetworkGatewayAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Local Network Gateways abbreviation",
+                            "description": "A short name for Local Network Gateway resource type to use in resource names"
+                        }
+                    },
+                    "machineLearningWorkspaceAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Machine Learning workspaces abbreviation",
+                            "description": "A short name for Machine Learning workspace resource type to use in resource names"
+                        }
+                    },
+                    "notificationHubAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Notification Hubs abbreviation",
+                            "description": "A short name for Notification Hub resource type to use in resource names"
+                        }
+                    },
+                    "notificationHubNamespaceAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Notification Hub namespaces abbreviation",
+                            "description": "A short name for Notification Hub namespace resource type to use in resource names"
+                        }
+                    },
+                    "networkInterfaceAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Network Interfaces abbreviation",
+                            "description": "A short name for Network Interface resource type to use in resource names"
+                        }
+                    },
+                    "networkSecurityGroupAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Network Security Groups abbreviation",
+                            "description": "A short name for Network Security Group resource type to use in resource names"
+                        }
+                    },
+                    "publicIPAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Public IPs abbreviation",
+                            "description": "A short name for Public IP resource type to use in resource names"
+                        }
+                    },
+                    "cacheForRedisAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Cache for Redis abbreviation",
+                            "description": "A short name for Cache for Redis resource type to use in resource names"
+                        }
+                    },
+                    "routeTableAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Route tables abbreviation",
+                            "description": "A short name for Route table resource type to use in resource names"
+                        }
+                    },
+                    "serviceBusAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Service Buses abbreviation",
+                            "description": "A short name for Service Bus resource type to use in resource names"
+                        }
+                    },
+                    "serviceBusQueueAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Service Bus queues abbreviation",
+                            "description": "A short name for Service Bus queue resource type to use in resource names"
+                        }
+                    },
+                    "servicePrincipalAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Service Principals abbreviation",
+                            "description": "A short name for Service Principal (user-assigned) resource type to use in resource names"
+                        }
+                    },
+                    "virtualNetworkSubnetAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Virtual Network subnets abbreviation",
+                            "description": "A short name for Virtual Network subnet resource type to use in resource names"
+                        }
+                    },
+                    "sqlServerAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "SQL Servers abbreviation",
+                            "description": "A short name for SQL Server resource type to use in resource names"
+                        }
+                    },
+                    "sqlServerManagedInstanceAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "SQL Server Managed Instances abbreviation",
+                            "description": "A short name for SQL Server Managed Instance resource type to use in resource names"
+                        }
+                    },
+                    "searchServiceAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Search Services abbreviation",
+                            "description": "A short name for Search Service resource type to use in resource names"
+                        }
+                    },
+                    "trafficManagerProfileAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Traffic Manager profiles abbreviation",
+                            "description": "A short name for Traffic Manager profile resource type to use in resource names"
+                        }
+                    },
+                    "virtualNetworkGatewayAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Virtual Network Gateways abbreviation",
+                            "description": "A short name for Virtual Network Gateway resource type to use in resource names"
+                        }
+                    },
+                    "virtualMachineAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Virtual Machines abbreviation",
+                            "description": "A short name for Virtual Machine resource type to use in resource names"
+                        }
+                    },
+                    "virtualNetworkAbbreviation": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Virtual Networks abbreviation",
+                            "description": "A short name for Virtual Network resource type to use in resource names"
+                        }
+                    }
+                },
+                "policyDefinitions": [
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForResourceGroups'))]",
+                        "policyDefinitionReferenceId": "Resource_Group_Naming"
+
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "Automation_Accounts_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.Automation/automationAccounts"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('automationAccountAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "Application_Gateways_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.Network/applicationGateways"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('applicationGatewayAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "Microsoft_Insights_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.Insights/components"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('applicationInsightsAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "Api_Management_Service_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.ApiManagement/service"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('apiManagementServiceAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "Availability_Set_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.Compute/availabilitySets"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('availabilitySetAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "Application_Service_Environment_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.Web/hostingEnvironments"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('applicationServiceEnvironmentAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "Application_Security_Group_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.Network/applicationSecurityGroups"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('applicationSecurityGroupAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "App_Service_Plan_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.Web/serverFarms"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('appServicePlanAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "CDN_Profile_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.Cdn/profiles"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('cdnProfileAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "Gateway_Connection_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.Network/connections"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('gatewayConnectionAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "Cognitive_Services_Account_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.CognitiveServices/accounts"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('cognitiveServicesAccountAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "Cosmos_DB_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.DocumentDB/databaseAccounts"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('cosmosDBAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "SQL_Database_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.Sql/servers/databases"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('sqlDatabaseAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "SQL_Data_Warehouse_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.AnalysisServices/servers"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('sqlDataWarehouseAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "Event_Hub_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.EventHub/namespaces/eventhubs"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('eventHubAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "Event_Hub_Namespace_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.EventHub/namespaces"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('eventHubNamespaceAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "Key_Vault_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.KeyVault/vaults"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('keyVaultAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "Log_Analytics_Workspace_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.OperationalInsights/workspaces"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('logAnalyticsWorkspaceAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "Logic_App_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.Logic/workflows"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('logicAppAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "Load_Balancer_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.Network/loadBalancers"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('loadBalancerAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "Local_Network_Gateway_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.Network/localNetworkGateways"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('localNetworkGatewayAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "Machine_Learning_Workspace_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.MachineLearningServices/workspaces"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('machineLearningWorkspaceAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "Notification_Hub_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.NotificationHubs/namespaces/notificationHubs"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('notificationHubAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "Notification_Hub_Namespace_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.NotificationHubs/namespaces"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('notificationHubNamespaceAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "Network_Interface_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.Network/networkInterfaces"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('networkInterfaceAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "Network_Security_Group_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.Network/networkSecurityGroups"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('networkSecurityGroupAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "Public_IP_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.Network/publicIPAddresses"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('publicIPAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "Cache_For_Redis_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.Cache/Redis"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('cacheForRedisAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "Route_Table_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.Network/routeTables"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('routeTableAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "Service_Bus_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.ServiceBus/namespaces"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('serviceBusAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "Service_Bus_Queue_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.ServiceBus/namespaces/queues"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('serviceBusQueueAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "Virtual_Network_Subnet_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.Network/virtualNetworks/subnets"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('virtualNetworkSubnetAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "Service_Principal_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.ManagedIdentity/userAssignedIdentities"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('servicePrincipalAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "SQL_Server_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.Sql/servers"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('sqlServerAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "SQL_Server_Managed_Instance_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.Sql/managedInstances"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('sqlServerManagedInstanceAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "Search_Service_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.Search/searchServices"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('searchServiceAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "Traffic_Manager_Profile_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.Network/trafficmanagerprofiles"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('trafficManagerProfileAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "Virtual_Network_Gateway_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.Network/virtualNetworkGateways"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('virtualNetworkGatewayAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "Virtual_Machine_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.Compute/virtualMachines"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('virtualMachineAbbreviation')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForNamingResources'))]",
+                        "policyDefinitionReferenceId": "Virtual_Network_Naming",
+                        "parameters": {
+                            "resourceType": {
+                                "value": "Microsoft.Network/virtualNetworks"
+                            },
+                            "resourceAbbreviation": {
+                                "value": "[[parameters('virtualNetworkAbbreviation')]"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

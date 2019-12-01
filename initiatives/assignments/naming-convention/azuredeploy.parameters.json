@@ -1,0 +1,139 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "initiativeDefinitionName": {
+            "value": "enforce-naming-for-resources-psd"
+        },
+        "initiativeAssignmentName": {
+            "value": "Enforce naming convention for common resource types"
+        },
+        "initiativeParameters": {
+            "metadata": {
+                "comment": "Policy parameters should be provided as an object: https://docs.microsoft.com/en-us/azure/azure-resource-manager/deploy-to-subscription#assign-policy"
+            },
+            "value": {
+                "automationAccountAbbreviation": {
+                    "value": "aa"
+                },
+                "applicationGatewayAbbreviation": {
+                    "value": "agw"
+                },
+                "applicationInsightsAbbreviation": {
+                    "value": "ai"
+                },
+                "apiManagementServiceAbbreviation": {
+                    "value": "apim"
+                },
+                "availabilitySetAbbreviation": {
+                    "value": "as"
+                },
+                "applicationServiceEnvironmentAbbreviation": {
+                    "value": "ase"
+                },
+                "applicationSecurityGroupAbbreviation": {
+                    "value": "asg"
+                },
+                "appServicePlanAbbreviation": {
+                    "value": "asp"
+                },
+                "cdnProfileAbbreviation": {
+                    "value": "cdn"
+                },
+                "gatewayConnectionAbbreviation": {
+                    "value": "cn"
+                },
+                "cognitiveServicesAccountAbbreviation": {
+                    "value": "cogs"
+                },
+                "cosmosDBAbbreviation": {
+                    "value": "cos"
+                },
+                "sqlDatabaseAbbreviation": {
+                    "value": "db"
+                },
+                "sqlDataWarehouseAbbreviation": {
+                    "value": "dwh"
+                },
+                "eventHubAbbreviation": {
+                    "value": "eh"
+                },
+                "eventHubNamespaceAbbreviation": {
+                    "value": "ehns"
+                },
+                "keyVaultAbbreviation": {
+                    "value": "kv"
+                },
+                "logAnalyticsWorkspaceAbbreviation": {
+                    "value": "la"
+                },
+                "logicAppAbbreviation": {
+                    "value": "lapp"
+                },
+                "loadBalancerAbbreviation": {
+                    "value": "lb"
+                },
+                "localNetworkGatewayAbbreviation": {
+                    "value": "lgw"
+                },
+                "machineLearningWorkspaceAbbreviation": {
+                    "value": "ml"
+                },
+                "notificationHubAbbreviation": {
+                    "value": "nh"
+                },
+                "notificationHubNamespaceAbbreviation": {
+                    "value": "nhns"
+                },
+                "networkInterfaceAbbreviation": {
+                    "value": "nic"
+                },
+                "networkSecurityGroupAbbreviation": {
+                    "value": "nsg"
+                },
+                "publicIPAbbreviation": {
+                    "value": "pip"
+                },
+                "cacheForRedisAbbreviation": {
+                    "value": "redis"
+                },
+                "routeTableAbbreviation": {
+                    "value": "route"
+                },
+                "serviceBusAbbreviation": {
+                    "value": "sb"
+                },
+                "serviceBusQueueAbbreviation": {
+                    "value": "sbq"
+                },
+                "servicePrincipalAbbreviation": {
+                    "value": "sp"
+                },
+                "virtualNetworkSubnetAbbreviation": {
+                    "value": "snet"
+                },
+                "sqlServerAbbreviation": {
+                    "value": "sql"
+                },
+                "sqlServerManagedInstanceAbbreviation": {
+                    "value": "sqlmi"
+                },
+                "searchServiceAbbreviation": {
+                    "value": "srch"
+                },
+                "trafficManagerProfileAbbreviation": {
+                    "value": "tm"
+                },
+                "virtualNetworkGatewayAbbreviation": {
+                    "value": "vgw"
+                },
+                "virtualMachineAbbreviation": {
+                    "value": "vm"
+                },
+                "virtualNetworkAbbreviation": {
+                    "value": "vnet"
+                }
+            }
+        }
+    }
+}

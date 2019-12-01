@@ -1,0 +1,79 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "initiativeDefinitionName": {
+            "type": "string",
+            "metadata": {
+                "displayName": "Initiative definition name",
+                "description": "Name of the initiative to assign."
+            }
+        },
+        "initiativeAssignmentName": {
+            "type": "string",
+            "metadata": {
+                "displayName": "Initiative assignment name",
+                "description": "Name to use for a specific initiative assignment."
+            }
+        },
+        "resourceGroupName": {
+            "type": "string",
+            "metadata": {
+                "displayName": "Resource group to limit initiative assignment scope",
+                "description": "Optional resource group name to limit the initiative scope.",
+                "strongType": "existingResourceGroups"
+            },
+            "defaultValue": ""
+        },
+        "policyAssignmentMode": {
+            "type": "string",
+            "metadata": {
+                "displayName": "Policy assignment mode",
+                "description": "Enforced (default) or disabled."
+            },
+            "allowedValues": [
+                "Default",
+                "DoNotEnforce"
+            ],
+            "defaultValue": "Default"
+        },
+        "initiativeParameters": {
+            "type": "object",
+            "metadata": {
+                "displayName": "Initiative parameters",
+                "description": "Initiative parameters as an object parameter type."
+            },
+            "defaultValue": {
+            }
+        },
+        "assignedBy": {
+            "type": "string",
+            "metadata": {
+                "displayName": "Assigned by",
+                "description": "Name of the person who created the assignment."
+            },
+            "defaultValue": {
+            }
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Authorization/policyAssignments",
+            "name": "[parameters('initiativeAssignmentName')]",
+            "apiVersion": "2019-09-01",
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            "location": "West Europe",
+            "properties": {
+                "scope": "[if(empty(parameters('resourceGroupName')), subscription().id, concat(subscription().id, '/resourceGroups/', parameters('resourceGroupName')))]",
+                "enforcementMode": "[parameters('policyAssignmentMode')]",
+                "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policySetDefinitions/', parameters('initiativeDefinitionName'))]",
+                "parameters": "[parameters('initiativeParameters')]",
+                "metadata": {
+                    "assignedBy": "[parameters('assignedBy')]"
+                }
+            }
+        }
+    ]
+}

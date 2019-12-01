@@ -1,0 +1,72 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+
+    "variables": {
+        "policyName": "enforce-resource-group-tags-pd",
+        "policyDisplayName": "Enforce using specific tags when deploying resource groups",
+        "policyDescription": "This policy enforces mandatory tags to use when deploying resource groups"
+    },
+
+    "resources": [
+        {
+            "type": "Microsoft.Authorization/policyDefinitions",
+            "name": "[variables('policyName')]",
+            "apiVersion": "2019-09-01",
+            "properties": {
+                "displayName": "[variables('policyDisplayName')]",
+                "policyType": "Custom",
+                "description": "[variables('policyDescription')]",
+                "metadata": {
+                    "category": "Tags"
+                },
+                "parameters": {
+                    "allowedEnvironmentTagValues": {
+                        "type": "array",
+                        "metadata": {
+                            "displayName": "Allowed 'environment' tag values",
+                            "description": "The list of allowed values for 'Environment' tag."
+                        }
+                    },
+                    "allowedCriticalityTagValues": {
+                        "type": "array",
+                        "metadata": {
+                            "displayName": "Allowed 'criticality' tag values",
+                            "description": "The list of allowed values for 'Criticality' tag."
+                        }
+                    }
+                },
+                "mode": "Indexed",
+                "policyRule": {
+                    "if": {
+                        "allOf": [
+                            {
+                                "field": "type",
+                                "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+                            },
+                            {
+                                "field": "tags['applicationName']",
+                                "exists": "false"
+                            },
+                            {
+                                "field": "tags['environment']",
+                                "in": "[[parameters('allowedEnvironmentTagValues')]"
+                            },
+                            {
+                                "field": "tags['owner']",
+                                "like": "*@yourdomain.com"
+                            },
+                            {
+                                "field": "tags['criticality']",
+                                "in": "[[parameters('allowedCriticalityTagValues')]"
+                            }
+                        ]
+                    },
+                    "then": {
+                        "effect": "deny"
+                    }
+                }
+            }
+        }
+    ]
+}

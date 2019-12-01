@@ -1,0 +1,579 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+
+    "variables": {
+        "policyName": "enforce-naming-for-resource-groups-pd",
+        "policyDisplayName": "Enforce naming convention for resource groups",
+        "policyDescription": "This policy enforces a naming pattern for resource groups."
+    },
+
+    "resources": [
+        {
+            "type": "Microsoft.Authorization/policyDefinitions",
+            "name": "[variables('policyName')]",
+            "apiVersion": "2019-09-01",
+            "properties": {
+                "displayName": "[variables('policyDisplayName')]",
+                "policyType": "Custom",
+                "description": "[variables('policyDescription')]",
+                "metadata": {
+                    "category": "Naming convention"
+                },
+                "mode": "All",
+                "policyRule": {
+                    "if": {
+                        "allOf": [
+                            {
+                                "field": "type",
+                                "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+                            },
+                            // 2 symbol prefix
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "..-rg"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "..-rg-."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "..-rg-.."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "..-rg-..."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "..-rg-...."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "..-rg-....."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "..-rg-............."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "..-rg-............................."
+                                }
+                            },
+                            // 3 symbol prefix
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "...-rg"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "...-rg-."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "...-rg-.."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "...-rg-..."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "...-rg-...."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "...-rg-....."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "...-rg-............."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "...-rg-............................."
+                                }
+                            },
+                            // 4 symbol prefix
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "....-rg"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "....-rg-."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "....-rg-.."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "....-rg-..."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "....-rg-...."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "....-rg-....."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "....-rg-............."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "....-rg-............................."
+                                }
+                            },
+                            // 5 symbol prefix
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": ".....-rg"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": ".....-rg-."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": ".....-rg-.."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": ".....-rg-..."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": ".....-rg-...."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": ".....-rg-....."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": ".....-rg-............."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": ".....-rg-............................."
+                                }
+                            },
+                            // 6 symbol prefix
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "......-rg"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "......-rg-."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "......-rg-.."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "......-rg-..."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "......-rg-...."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "......-rg-....."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "......-rg-............."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "......-rg-............................."
+                                }
+                            },
+                            // 7 symbol prefix
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": ".......-rg"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": ".......-rg-."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": ".......-rg-.."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": ".......-rg-..."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": ".......-rg-...."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": ".......-rg-....."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": ".......-rg-............."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": ".......-rg-............................."
+                                }
+                            },
+                            // 8 symbol prefix
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "........-rg"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "........-rg-."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "........-rg-.."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "........-rg-..."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "........-rg-...."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "........-rg-....."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "........-rg-............."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "........-rg-............................."
+                                }
+                            },
+                            // 9 symbol prefix
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": ".........-rg"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": ".........-rg-."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": ".........-rg-.."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": ".........-rg-..."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": ".........-rg-...."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": ".........-rg-....."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": ".........-rg-............."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": ".........-rg-............................."
+                                }
+                            },
+                            // 10 symbol prefix
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "..........-rg"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "..........-rg-."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "..........-rg-.."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "..........-rg-..."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "..........-rg-...."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "..........-rg-....."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "..........-rg-............."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "..........-rg-............................."
+                                }
+                            },
+                            // 11 symbol prefix
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "...........-rg"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "...........-rg-."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "...........-rg-.."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "...........-rg-..."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "...........-rg-...."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "...........-rg-....."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "...........-rg-............."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "...........-rg-............................."
+                                }
+                            },
+                            // 12 symbol prefix
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "............-rg"
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "............-rg-."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "............-rg-.."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "............-rg-..."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "............-rg-...."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "............-rg-....."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "............-rg-............."
+                                }
+                            },
+                            {
+                                "not": {
+                                    "field": "name",
+                                    "match": "............-rg-............................."
+                                }
+                            }
+                        ]
+                    },
+                    "then": {
+                        "effect": "deny"
+                    }
+                }
+            }
+        }
+    ]
+}

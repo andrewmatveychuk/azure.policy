@@ -1,0 +1,35 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "policyDefinitionName": {
+            "value": "enforce-resource-group-tags-pd"
+        },
+        "policyAssignmentName": {
+            "value": "Enforce using specific tags when deploying resource groups"
+        },
+        "policyParameters": {
+            "metadata": {
+                "comment": "Policy parameters should be provided as an object: https://docs.microsoft.com/en-us/azure/azure-resource-manager/deploy-to-subscription#assign-policy"
+            },
+            "value": {
+                "allowedEnvironmentTagValues": {
+                    "value": [
+                        "Production",
+                        "Staging",
+                        "Test",
+                        "Development"
+                    ]
+                },
+                "allowedCriticalityTagValues": {
+                    "value": [
+                        "High",
+                        "Medium",
+                        "Low",
+                        "None"
+                    ]
+                }
+            }
+        }
+    }
+}
