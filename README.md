@@ -5,6 +5,10 @@ Before starting to work with these templates, read the information in the follow
 
 * [How to deploy Azure Policies with ARM templates](https://andrewmatveychuk.com/how-to-deploy-azure-policies-with-arm-templates/)
 
+## Build status
+
+[![Build Status](https://dev.azure.com/matveychuk/azure.policy/_apis/build/status/andrewmatveychuk.azure.policy?branchName=master)](https://dev.azure.com/matveychuk/azure.policy/_build/latest?definitionId=3&branchName=master)
+
 ## Getting Started
 
 To start working with this project, clone the repository to your local machine and look for the artifacts in the specific folders:
