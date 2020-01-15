@@ -1,0 +1,27 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "policyDefinitionName": {
+            "value": "audit-sqldatabase-criticality-tag-pd"
+        },
+        "policyAssignmentName": {
+            "value": "Audit 'criticality' tag for SQL databases"
+        },
+        "policyParameters": {
+            "metadata": {
+                "comment": "Policy parameters should be provided as an object: https://docs.microsoft.com/en-us/azure/azure-resource-manager/deploy-to-subscription#assign-policy"
+            },
+            "value": {
+                "allowedCriticalityTagValues": {
+                    "value": [
+                        "High",
+                        "Medium",
+                        "Low",
+                        "None"
+                    ]
+                }
+            }
+        }
+    }
+}

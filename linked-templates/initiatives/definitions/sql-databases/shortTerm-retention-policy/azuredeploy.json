@@ -1,0 +1,88 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "variables": {
+        "policySetName": "audit-sqldatabase-short-term-retention-policy-psd",
+        "policySetDisplayName": "Audit SQL database short-term retention policy configuration",
+        "policySetDescription": "This initiative audits the configuration of short-term retention policy for SQL databases.",
+        "policyDefinitionForShortTermRetentionPolicy": "audit-sqldatabase-shortTermRetentionPolicy-pd"
+
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Authorization/policySetDefinitions",
+            "apiVersion": "2019-09-01",
+            "name": "[variables('policySetName')]",
+            "properties": {
+                "displayName": "[variables('policySetDisplayName')]",
+                "description": "[variables('policySetDescription')]",
+                "policyType": "Custom",
+                "metadata": {
+                    "category": "SQL"
+                },
+                "parameters": {
+                    "retentionDaysValuesForHighCriticality": {
+                        "type": "integer",
+                        "metadata": {
+                            "displayName": "Retention for 'High' critical databases",
+                            "description": "Retention setting for highly critical databases."
+                        }
+                    },
+                    "retentionDaysValuesForMediumCriticality": {
+                        "type": "integer",
+                        "metadata": {
+                            "displayName": "Retention for 'Medium' critical databases",
+                            "description": "Retention setting for medium critical databases."
+                        }
+                    },
+                    "retentionDaysValuesForLowCriticality": {
+                        "type": "integer",
+                        "metadata": {
+                            "displayName": "Retention for 'Low' critical databases",
+                            "description": "Retention setting for low critical databases."
+                        }
+                    }
+
+                },
+                "policyDefinitions": [
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForShortTermRetentionPolicy'))]",
+                        "policyDefinitionReferenceId": "SQL_database_High_Criticality",
+                        "parameters": {
+                            "criticalityTagValue": {
+                                "value": "High"
+                            },
+                            "retentionDays": {
+                                "value": "[[parameters('retentionDaysValuesForHighCriticality')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForShortTermRetentionPolicy'))]",
+                        "policyDefinitionReferenceId": "SQL_database_Medium_Criticality",
+                        "parameters": {
+                            "criticalityTagValue": {
+                                "value": "Medium"
+                            },
+                            "retentionDays": {
+                                "value": "[[parameters('retentionDaysValuesForMediumCriticality')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForShortTermRetentionPolicy'))]",
+                        "policyDefinitionReferenceId": "SQL_database_Low_Criticality",
+                        "parameters": {
+                            "criticalityTagValue": {
+                                "value": "Low"
+                            },
+                            "retentionDays": {
+                                "value": "[[parameters('retentionDaysValuesForLowCriticality')]"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

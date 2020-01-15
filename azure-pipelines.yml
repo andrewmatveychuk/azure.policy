@@ -1,0 +1,139 @@
+# Pipeline to validate and deploy ARM templates
+
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    exclude:
+    - README.md
+
+variables:
+    # Deployment location
+    location: 'West Europe'
+    # Artifact name
+    artifactName: 'azure.policy'
+
+stages:
+
+- stage: Publish
+  displayName: Publish
+
+  jobs:
+    - job: PublishdJob
+      displayName: Copy and Publish Artifacts
+      pool:
+        vmImage: 'windows-latest'
+
+      steps:
+        - task: CopyFiles@2
+          displayName: Copy files
+          inputs:
+            SourceFolder: '$(Build.SourcesDirectory)'
+            Contents: '**'
+            TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+        - task: PublishBuildArtifacts@1
+          displayName:  Publish build artifacts
+          inputs:
+            PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+            ArtifactName: '$(artifactName)'
+
+    
+- stage: DeployToTestEnvironment
+  displayName: Deploy to test
+  dependsOn: Publish
+
+  jobs:
+  - deployment: DeploymentJob
+    displayName: Deploy ARM templates
+    pool:
+      vmImage: 'windows-latest'
+    environment: 'Test'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - task: AzureResourceManagerTemplateDeployment@3
+              displayName: Create a resource group
+              inputs:
+                deploymentScope: 'Subscription'
+                ConnectedServiceName: 'Visual Studio Enterprise'
+                subscriptionName: '046a3b8b-ca72-46b7-8bd6-4a7cc5357741'
+                location: $(location)
+                templateLocation: 'Linked artifact'
+                csmFile: '$(Agent.BuildDirectory)\$(artifactName)\resource-group\azuredeploy.json'
+                csmParametersFile: '$(Agent.BuildDirectory)\$(artifactName)\resource-group\azuredeploy.parameters.json'
+                deploymentMode: 'Incremental'
+                deploymentOutputs: 'armOutputs'
+
+            - task: AzurePowerShell@4
+              displayName: Get the resource group name
+              inputs:
+                azureSubscription: 'Visual Studio Enterprise'
+                scriptType: 'InlineScript'
+                Inline: |
+                  $var=ConvertFrom-Json '$(armOutputs)'
+                  $value=$var.resourceGroupName.value
+                  Write-Host "##vso[task.setvariable variable=resourceGroupName;]$value"
+                azurePowerShellVersion: 'latestVersion'
+                pwsh: true
+
+            - task: AzureResourceManagerTemplateDeployment@3
+              displayName: Create a storage account for deployment artifacts
+              inputs:
+                deploymentScope: 'Resource Group'
+                ConnectedServiceName: 'Visual Studio Enterprise'
+                subscriptionName: '046a3b8b-ca72-46b7-8bd6-4a7cc5357741'
+                action: 'Create Or Update Resource Group'
+                resourceGroupName: '$(resourceGroupName)'
+                location: $(location)
+                templateLocation: 'Linked artifact'
+                csmFile: '$(Agent.BuildDirectory)\$(artifactName)\storage-account-for-artifacts\azuredeploy.json'
+                csmParametersFile: '$(Agent.BuildDirectory)\$(artifactName)\storage-account-for-artifacts\azuredeploy.parameters.json'
+                deploymentMode: 'Incremental'
+                deploymentOutputs: 'armOutputs'
+
+            - task: AzurePowerShell@4
+              displayName: Get the storage account and its container names
+              inputs:
+                azureSubscription: 'Visual Studio Enterprise'
+                scriptType: 'InlineScript'
+                Inline: |
+                  $var=ConvertFrom-Json '$(armOutputs)'
+                  $value=$var.storageAccountName.value
+                  Write-Host "##vso[task.setvariable variable=storageAccountName;]$value"
+                  $value=$var.storageContainerName.value
+                  Write-Host "##vso[task.setvariable variable=storageContainerName;]$value"
+                azurePowerShellVersion: 'latestVersion'
+                pwsh: true
+
+            - task: AzureFileCopy@3
+              displayName: Copy deployment artifacts to the storage account
+              inputs:
+                sourcePath: '$(Agent.BuildDirectory)\$(artifactName)\linked-templates'
+                azureSubscription: 'Visual Studio Enterprise'
+                destination: azureBlob
+                storage: $(storageAccountName)
+                containerName: $(storageContainerName)
+                blobPrefix: 'linked-templates'
+                cleanTargetBeforeCopy: true
+                outputStorageUri: artifactsLocation
+                outputStorageContainerSasToken: artifactsLocationSasToken
+                sasTokenTimeOutInMinutes: 30
+
+            # - task: AzureResourceManagerTemplateDeployment@3
+            #   displayName: Deploy resources to the resource group
+            #   inputs:
+            #     deploymentScope: 'Resource Group'
+            #     ConnectedServiceName: 'Visual Studio Enterprise'
+            #     subscriptionName: '046a3b8b-ca72-46b7-8bd6-4a7cc5357741'
+            #     action: 'Create Or Update Resource Group'
+            #     resourceGroupName: '$(resourceGroupName)'
+            #     location: $(location)
+            #     templateLocation: 'Linked artifact'
+            #     csmFile: '$(Agent.BuildDirectory)\$(artifactName)\main-template\azuredeploy.json'
+            #     csmParametersFile: '$(Agent.BuildDirectory)\$(artifactName)\main-template\azuredeploy.parameters.json'
+            #     overrideParameters: '-_artifactsLocation $(artifactsLocation) -_artifactsLocationSasToken $(artifactsLocationSasToken)'
+            #     deploymentMode: 'Incremental'
+            #     deploymentOutputs: 'armOutputs'

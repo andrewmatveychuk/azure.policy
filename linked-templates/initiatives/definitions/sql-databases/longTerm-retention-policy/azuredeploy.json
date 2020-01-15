@@ -1,0 +1,105 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "variables": {
+        "policySetName": "audit-sqldatabase-long-term-retention-policy-psd",
+        "policySetDisplayName": "Audit SQL database long-term retention policy configuration",
+        "policySetDescription": "This initiative audits the configuration of long-term retention policy for SQL databases.",
+        "policyDefinitionForShortTermRetentionPolicy": "audit-sqldatabase-longTermRetentionPolicy-pd"
+
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Authorization/policySetDefinitions",
+            "apiVersion": "2019-09-01",
+            "name": "[variables('policySetName')]",
+            "properties": {
+                "displayName": "[variables('policySetDisplayName')]",
+                "description": "[variables('policySetDescription')]",
+                "policyType": "Custom",
+                "metadata": {
+                    "category": "SQL"
+                },
+                "parameters": {
+                    "retentionConfigurationForHighCriticality": {
+                        "type": "object",
+                        "metadata": {
+                            "displayName": "Retention for 'High' critical databases",
+                            "description": "Retention setting for highly-critical databases."
+                        },
+                        "defaultValue": {
+                            "weeklyRetention": "",
+                            "monthlyRetention": "",
+                            "yearlyRetention": "",
+                            "weekOfYear": ""
+                        }
+                    },
+                    "retentionConfigurationForMediumCriticality": {
+                        "type": "object",
+                        "metadata": {
+                            "displayName": "Retention for 'Medium' critical databases",
+                            "description": "Retention setting for medium-critical databases."
+                        },
+                        "defaultValue": {
+                            "weeklyRetention": "",
+                            "monthlyRetention": "",
+                            "yearlyRetention": "",
+                            "weekOfYear": ""
+                        }
+                    },
+                    "retentionConfigurationForLowCriticality": {
+                        "type": "object",
+                        "metadata": {
+                            "displayName": "Retention for 'Low' critical databases",
+                            "description": "Retention setting for low-critical databases."
+                        },
+                        "defaultValue": {
+                            "weeklyRetention": "",
+                            "monthlyRetention": "",
+                            "yearlyRetention": "",
+                            "weekOfYear": ""
+                        }
+                    }
+                },
+                "policyDefinitions": [
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForShortTermRetentionPolicy'))]",
+                        "policyDefinitionReferenceId": "SQL_database_High_Criticality",
+                        "parameters": {
+                            "criticalityTagValue": {
+                                "value": "High"
+                            },
+                            "retentionSettings": {
+                                "value": "[[parameters('retentionConfigurationForHighCriticality')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForShortTermRetentionPolicy'))]",
+                        "policyDefinitionReferenceId": "SQL_database_Medium_Criticality",
+                        "parameters": {
+                            "criticalityTagValue": {
+                                "value": "Medium"
+                            },
+                            "retentionSettings": {
+                                "value": "[[parameters('retentionConfigurationForMediumCriticality')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(subscription().id, '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForShortTermRetentionPolicy'))]",
+                        "policyDefinitionReferenceId": "SQL_database_Low_Criticality",
+                        "parameters": {
+                            "criticalityTagValue": {
+                                "value": "Low"
+                            },
+                            "retentionSettings": {
+                                "value": "[[parameters('retentionConfigurationForLowCriticality')]"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

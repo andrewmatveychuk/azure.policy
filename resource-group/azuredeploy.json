@@ -1,0 +1,41 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "applicationPrefix": {
+            "type": "string",
+            "metadata": {
+                "description": "Prefix to use when creating the resources in this deployment."
+            }
+        },
+        "location": {
+            "type": "string",
+            "metadata": {
+                "description": "Location for the resource group.",
+                "strongType": "location"
+            },
+            "defaultValue": "West Europe"
+        }
+    },
+    "variables": {
+        "resourceGroupName": "[concat(parameters('applicationPrefix'), '-rg-', uniqueString(subscription().Id))]"
+    },
+    "resources": [
+        {
+            "name": "[variables('resourceGroupName')]",
+            "type": "Microsoft.Resources/resourceGroups",
+            "apiVersion": "2018-05-01",
+            "location": "[parameters('location')]"
+        }
+    ],
+    "outputs": {
+        "resourceGroupId": {
+            "type": "string",
+            "value": "[resourceId('Microsoft.Resources/resourceGroups', variables('resourceGroupName'))]"
+        },
+        "resourceGroupName": {
+            "type": "string",
+            "value": "[variables('resourceGroupName')]"
+        }
+    }
+}

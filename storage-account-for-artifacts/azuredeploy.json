@@ -1,0 +1,102 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "storageAccountPrefix": {
+            "type": "string",
+            "metadata": {
+                "description": "Prefix to be used in storage account name.",
+                "displayName": "Account name prefix"
+            },
+            "defaultValue": "deploy",
+            "maxLength": 11
+        },
+        "location": {
+            "type": "string",
+            "metadata": {
+                "description": "The locations that resource groups should be created in.",
+                "strongType": "location",
+                "displayName": "Deployment location"
+            },
+            "defaultValue": "West Europe"
+        },
+        "accountType": {
+            "type": "string",
+            "metadata": {
+                "description": "The type of storage account.",
+                "strongType": "storageSkus",
+                "displayName": "Storage account type"
+            },
+            "defaultValue": "Standard_LRS"
+        },
+        "accessTier": {
+            "type": "string",
+            "metadata": {
+                "description": "Access tier for block blob data.",
+                "displayName": "Access tier"
+            },
+            "allowedValues":[
+                "Hot",
+                "Cool",
+                "Archive"
+            ],
+            "defaultValue": "Hot"
+        },
+        "containerName": {
+            "type": "string",
+            "metadata": {
+                "description": "Container name to store deployment artifacts.",
+                "displayName": "Container name"
+            },
+            "defaultValue": "artifacts"
+        }
+    },
+    "variables": {
+        "storageAccountName": "[concat(toLower(parameters('storageAccountPrefix')), uniqueString(resourceGroup().Id))]",
+        "blobEndPoint": "[concat('https://',variables('storageAccountName'),'.blob.core.windows.net/')]"
+    },
+    "resources": [
+        {
+            "name": "[variables('storageAccountName')]",
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2019-04-01",
+            "location": "[parameters('location')]",
+            "properties": {
+                "accessTier": "[parameters('accessTier')]",
+                "supportsHttpsTrafficOnly": true
+            },
+            "sku": {
+                "name": "[parameters('accountType')]"
+            },
+            "kind": "StorageV2",
+            "resources": [
+                {
+                    "type": "blobServices/containers",
+                    "name": "[concat('default/', parameters('containerName'))]",
+                    "apiVersion": "2019-04-01",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
+                    ]
+                }
+            ]
+        }
+    ],
+    "outputs": {
+        "blobEndPoint": {
+            "type": "string",
+            "value": "[variables('blobEndPoint')]"
+        },
+        "storageAccountConnectionString": {
+            "type": "string",
+            "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('storageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), '2019-04-01').keys[0].value)]"
+        },
+        "storageAccountName": {
+            "type": "string",
+            "value": "[variables('storageAccountName')]"
+        },
+        "storageContainerName": {
+            "type": "string",
+            "value": "[parameters('containerName')]"
+        }
+    }
+}

@@ -1,0 +1,46 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "initiativeDefinitionName": {
+            "value": "audit-sqldatabase-long-term-retention-policy-psd"
+        },
+        "initiativeAssignmentName": {
+            "value": "Audit SQL database long-term retention policy configuration"
+        },
+        "initiativeParameters": {
+            "metadata": {
+                "comment": "Policy parameters should be provided as an object: https://docs.microsoft.com/en-us/azure/azure-resource-manager/deploy-to-subscription#assign-policy"
+            },
+            "value": {
+                "retentionConfigurationForHighCriticality": {
+                    "value": {
+                        "weeklyRetention": "PT0S",
+                        "monthlyRetention": "P6M",
+                        "yearlyRetention": "PT0S",
+                        "weekOfYear": "0"
+                    }
+                },
+                "retentionConfigurationForMediumCriticality": {
+                    "value": {
+                        "weeklyRetention": "PT0S",
+                        "monthlyRetention": "P3M",
+                        "yearlyRetention": "PT0S",
+                        "weekOfYear": "0"
+                    }
+                },
+                "retentionConfigurationForLowCriticality": {
+                    "value": {
+                        "weeklyRetention": "PT0S",
+                        "monthlyRetention": "P1M",
+                        "yearlyRetention": "PT0S",
+                        "weekOfYear": "0"
+                    }
+                }
+            }
+        },
+        "notScopes": {
+            "value": []
+        }
+    }
+}

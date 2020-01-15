@@ -1,0 +1,53 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+
+    "variables": {
+        "policyName": "audit-sqldatabase-criticality-tag-pd",
+        "policyDisplayName": "Audit 'criticality' tag for SQL databases",
+        "policyDescription": "This policy audit the usage of required 'criticality' tag for SQL databases."
+    },
+
+    "resources": [
+        {
+            "type": "Microsoft.Authorization/policyDefinitions",
+            "name": "[variables('policyName')]",
+            "apiVersion": "2019-09-01",
+            "properties": {
+                "displayName": "[variables('policyDisplayName')]",
+                "policyType": "Custom",
+                "description": "[variables('policyDescription')]",
+                "metadata": {
+                    "category": "Tags"
+                },
+                "parameters": {
+                    "allowedCriticalityTagValues": {
+                        "type": "array",
+                        "metadata": {
+                            "displayName": "Allowed 'criticality' tag values",
+                            "description": "The list of allowed values for 'Criticality' tag."
+                        }
+                    }
+                },
+                "mode": "Indexed",
+                "policyRule": {
+                    "if": {
+                        "allOf": [
+                            {
+                                "field": "type",
+                                "equals": "Microsoft.Sql/servers/databases"
+                            },
+                            {
+                                "field": "tags['criticality']",
+                                "notIn": "[[parameters('allowedCriticalityTagValues')]"
+                            }
+                        ]
+                    },
+                    "then": {
+                        "effect": "audit"
+                    }
+                }
+            }
+        }
+    ]
+}

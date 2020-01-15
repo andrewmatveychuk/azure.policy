@@ -1,0 +1,21 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "storageAccountPrefix": {
+            "value": "deploy"
+        },
+        "location": {
+            "value": "West Europe"
+        },
+        "accountType": {
+            "value": "Standard_LRS"
+        },
+        "accessTier": {
+            "value": "Hot"
+        },
+        "containerName": {
+            "value": "artifacts"
+        }
+    }
+}

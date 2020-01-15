@@ -1,0 +1,145 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "applicationPrefix": {
+            "type": "string",
+            "metadata": {
+                "description": "Prefix to use when creating the resources in this deployment."
+            },
+            "maxLength": 11
+        },
+        "functionAppRuntimeStack": {
+            "type": "string",
+            "metadata": {
+                "description": "Specify the runtime stack for function application.",
+                "name": "Function app runtime"
+            }
+        },
+        "functionAppTimeZone": {
+            "type": "string",
+            "metadata": {
+                "description": "Specify the time zone for the function application.",
+                "name": "Function app time zone"
+            }
+        },
+        "logAnalyticsWorkspaceSKU": {
+            "type": "string",
+            "metadata": {
+                "description": "Specify the pricing tier for the Log Analytics workspace.",
+                "name": "Log Analytics workspace SKU"
+            }
+        },
+        "serviceBusNamespaceSKU": {
+            "type": "string",
+            "metadata": {
+                "description": "The messaging tier for service Bus namespace.",
+                "name": "Service Bus tier"
+            }
+        },
+        "_artifactsLocation": {
+            "type": "string",
+            "metadata": {
+                "description": "The base URI where artifacts required by this template are located."
+            }
+        },
+        "_artifactsLocationSasToken": {
+            "type": "securestring",
+            "metadata": {
+                "description": "The sasToken required to access _artifactsLocation.  When the template is deployed using the accompanying scripts, a sasToken will be automatically generated."
+            }
+        }
+    },
+    "variables": {
+        "functionAppName": "[concat(parameters('applicationPrefix'), '-fapp-', uniqueString(resourceGroup().Id))]",
+        "hostingPlanName": "[concat(parameters('applicationPrefix'), '-asp-', uniqueString(resourceGroup().Id))]",
+        "storageAccountName": "[concat(parameters('applicationPrefix'), uniqueString(resourceGroup().Id))]",
+        "applicationInsightsName": "[concat(parameters('applicationPrefix'), '-ai-', uniqueString(resourceGroup().Id))]",
+
+        "logAnalyticsWorkspaceName": "[concat(parameters('applicationPrefix'), '-la-', uniqueString(resourceGroup().Id))]",
+        "serviceBusNamespaceName": "[concat(parameters('applicationPrefix'), '-sb-', uniqueString(resourceGroup().Id))]",
+
+        "linkedTemplates": {
+            "functionApp": "[concat(parameters('_artifactsLocation'), 'linked-templates/functionApp.json', parameters('_artifactsLocationSasToken'))]",
+            "logAnalyticsWorkspace": "[concat(parameters('_artifactsLocation'), 'linked-templates/logAnalyticsWorkspace.json', parameters('_artifactsLocationSasToken'))]",
+            "serviceBusNamespace": "[concat(parameters('_artifactsLocation'), 'linked-templates/serviceBusNamespace.json', parameters('_artifactsLocationSasToken'))]"
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2018-05-01",
+            "name": "functionAppDeployment",
+            "resourceGroup": "[resourceGroup().name]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('linkedTemplates').functionApp]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "functionAppName": {
+                        "value": "[variables('functionAppName')]"
+                    },
+                    "hostingPlanName": {
+                        "value": "[variables('hostingPlanName')]"
+                    },
+                    "storageAccountName": {
+                        "value": "[variables('storageAccountName')]"
+                    },
+                    "applicationInsightsName": {
+                        "value": "[variables('applicationInsightsName')]"
+                    },
+                    "runtimeStack": {
+                        "value": "[parameters('functionAppRuntimeStack')]"
+                    },
+                    "timezone": {
+                        "value": "[parameters('functionAppTimeZone')]"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2018-05-01",
+            "name": "logAnalyticsWorkspaceDeployment",
+            "resourceGroup": "[resourceGroup().name]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('linkedTemplates').logAnalyticsWorkspace]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "workspaceName": {
+                        "value": "[variables('logAnalyticsWorkspaceName')]"
+                    },
+                    "sku": {
+                        "value": "[parameters('logAnalyticsWorkspaceSKU')]"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2018-05-01",
+            "name": "serviceBusNamespaceDeployment",
+            "resourceGroup": "[resourceGroup().name]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('linkedTemplates').serviceBusNamespace]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "serviceBusNamespaceName": {
+                        "value": "[variables('serviceBusNamespaceName')]"
+                    },
+                    "sku": {
+                        "value": "[parameters('serviceBusNamespaceSKU')]"
+                    }
+                }
+            }
+        }
+    ]
+}
