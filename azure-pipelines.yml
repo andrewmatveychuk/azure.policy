@@ -29,7 +29,7 @@ stages:
         - task: AzureResourceManagerTemplateDeployment@3
           displayName: Validate main template
           inputs:
-            deploymentScope: 'Subscription '
+            deploymentScope: 'Subscription'
             ConnectedServiceName: 'Visual Studio Enterprise'
             subscriptionName: '046a3b8b-ca72-46b7-8bd6-4a7cc5357741'
             location: $(location)
@@ -55,11 +55,11 @@ stages:
             - task: AzureResourceManagerTemplateDeployment@3
               displayName: Deploy resources to the resource group
               inputs:
-              deploymentScope: 'Subscription '
-              ConnectedServiceName: 'Visual Studio Enterprise'
-              subscriptionName: '046a3b8b-ca72-46b7-8bd6-4a7cc5357741'
-              location: $(location)
-              templateLocation: 'URL of the file'
-              csmFileLink: '$(templateBaseUrl)/main-template/azuredeploy.json'
-              # csmParametersFileLink: '$(templateBaseUrl)/main-template/azuredeploy.parameters.json'
-              deploymentMode: 'Incremental'
+                deploymentScope: 'Subscription'
+                ConnectedServiceName: 'Visual Studio Enterprise'
+                subscriptionName: '046a3b8b-ca72-46b7-8bd6-4a7cc5357741'
+                location: $(location)
+                templateLocation: 'URL of the file'
+                csmFileLink: '$(templateBaseUrl)/main-template/azuredeploy.json'
+                # csmParametersFileLink: '$(templateBaseUrl)/main-template/azuredeploy.parameters.json'
+                deploymentMode: 'Incremental'
