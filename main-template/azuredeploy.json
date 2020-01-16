@@ -30,7 +30,7 @@
             "auditSqlDatabaseCriticalityTagPolicy": "[concat(variables('templateBaseUrl'), 'policies/definitions/tagging/audit-sqldatabase-criticality-tag/azuredeploy.json')]",
 
             // Initiative definitions
-            
+
             // Naming Convention
             "namingConventionInitiative": "[concat(variables('templateBaseUrl'), 'initiatives/definitions/naming-convention/azuredeploy.json')]",
             // Audit Azure SQL database retention policy settings
@@ -41,6 +41,8 @@
         }
     },
     "resources": [
+        // Policy definitions
+
         {
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2018-05-01",
@@ -128,6 +130,73 @@
                 "mode": "Incremental",
                 "templateLink": {
                     "uri": "[variables('linkedTemplates').auditSqlDatabaseCriticalityTagPolicy]",
+                    "contentVersion": "1.0.0.0"
+                }
+            }
+        },
+
+        // Initiative definitions
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2018-05-01",
+            "name": "namingConventionInitiativeDeployment",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "enforceNamingForResourcePolicyDeployment",
+                "enforceNamingForResourceGroupsPolicyDeployment"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('linkedTemplates').namingConventionInitiative]",
+                    "contentVersion": "1.0.0.0"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2018-05-01",
+            "name": "longTermRetentionInitiativeDeployment",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "longTermRetentionPolicyDeployment"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('linkedTemplates').longTermRetentionInitiative]",
+                    "contentVersion": "1.0.0.0"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2018-05-01",
+            "name": "shortTermRetentionInitiativeDeployment",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "shortTermRetentionPolicyDeployment"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('linkedTemplates').shortTermRetentionInitiative]",
+                    "contentVersion": "1.0.0.0"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2018-05-01",
+            "name": "taggingInitiativeDeployment",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "enforceResourceGroupTagsPolicyDeployment"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('linkedTemplates').taggingInitiative]",
                     "contentVersion": "1.0.0.0"
                 }
             }
