@@ -1,0 +1,68 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+
+    "variables": {
+        "policyName": "audit-sqldatabase-shortTermRetentionPolicy-pd",
+        "policyDisplayName": "Audit short term retention policy configuration for SQL databases",
+        "policyDescription": "This policy audit the configuration of short term retention policy for SQL databases."
+    },
+
+    "resources": [
+        {
+            "type": "Microsoft.Authorization/policyDefinitions",
+            "name": "[variables('policyName')]",
+            "apiVersion": "2019-09-01",
+            "properties": {
+                "displayName": "[variables('policyDisplayName')]",
+                "policyType": "Custom",
+                "description": "[variables('policyDescription')]",
+                "metadata": {
+                    "category": "SQL"
+                },
+                "parameters": {
+                    "criticalityTagValue": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "'criticality' tag value",
+                            "description": "Value for 'criticality' tag."
+                        }
+                    },
+                    "retentionDays": {
+                        "type": "integer",
+                        "metadata": {
+                            "displayName": "Retention days value",
+                            "description": "Number of days for short term retention policy"
+                        }
+                    }
+                },
+                "mode": "Indexed",
+                "policyRule": {
+                    "if": {
+                        "allOf": [
+                            {
+                                "field": "type",
+                                "equals": "Microsoft.Sql/servers/databases"
+                            },
+                            {
+                                "field": "tags['criticality']",
+                                "equals": "[[parameters('criticalityTagValue')]"
+                            }
+                        ]
+                    },
+                    "then": {
+                        "effect": "AuditIfNotExists",
+                        "details": {
+                            "type": "Microsoft.Sql/servers/databases/backupShortTermRetentionPolicies",
+                            "name": "default",
+                            "existenceCondition": {
+                                "field": "Microsoft.Sql/servers/databases/backupShortTermRetentionPolicies/retentionDays",
+                                "greaterOrEquals": "[[parameters('retentionDays')]"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}

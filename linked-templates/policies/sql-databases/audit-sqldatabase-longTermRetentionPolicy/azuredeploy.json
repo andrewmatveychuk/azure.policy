@@ -1,0 +1,91 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+
+    "variables": {
+        "policyName": "audit-sqldatabase-longTermRetentionPolicy-pd",
+        "policyDisplayName": "Audit long term retention policy configuration for SQL databases",
+        "policyDescription": "This policy audit the configuration of long term retention policy for SQL databases."
+    },
+
+    "resources": [
+        {
+            "type": "Microsoft.Authorization/policyDefinitions",
+            "name": "[variables('policyName')]",
+            "apiVersion": "2019-09-01",
+            "properties": {
+                "displayName": "[variables('policyDisplayName')]",
+                "policyType": "Custom",
+                "description": "[variables('policyDescription')]",
+                "metadata": {
+                    "category": "SQL"
+                },
+                "parameters": {
+                    "criticalityTagValue": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "'criticality' tag value",
+                            "description": "Value for 'criticality' tag."
+                        }
+                    },
+                    "retentionSettings": {
+                        "type": "object",
+                        "metadata": {
+                            "displayName": "Retention settings",
+                            "description": "Settings for long-term retention policy."
+                        },
+                        "defaultValue": {
+                            "weeklyRetention": "",
+                            "monthlyRetention": "",
+                            "yearlyRetention": "",
+                            "weekOfYear": ""
+                        }
+                    }
+                },
+                "mode": "Indexed",
+                "policyRule": {
+                    "if": {
+                        "allOf": [
+                            {
+                                "field": "type",
+                                "equals": "Microsoft.Sql/servers/databases"
+                            },
+                            {
+                                "field": "tags['criticality']",
+                                "equals": "[[parameters('criticalityTagValue')]"
+                            }
+
+                        ]
+                    },
+                    "then": {
+                        "effect": "AuditIfNotExists",
+                        "details": {
+                            "type": "Microsoft.Sql/servers/databases/backupLongTermRetentionPolicies",
+                            "name": "default",
+                            "existenceCondition": {
+                                "allOf": [
+                                    {
+                                        "field": "Microsoft.Sql/servers/databases/backupLongTermRetentionPolicies/weeklyRetention",
+                                        "equals": "[[parameters('retentionSettings').weeklyRetention]"
+                                    },
+                                    {
+                                        "field": "Microsoft.Sql/servers/databases/backupLongTermRetentionPolicies/monthlyRetention",
+                                        "equals": "[[parameters('retentionSettings').monthlyRetention]"
+                                    },
+                                    {
+                                        "field": "Microsoft.Sql/servers/databases/backupLongTermRetentionPolicies/yearlyRetention",
+                                        "equals": "[[parameters('retentionSettings').yearlyRetention]"
+                                    },
+                                    {
+                                        "field": "Microsoft.Sql/servers/databases/backupLongTermRetentionPolicies/weekOfYear",
+                                        "equals": "[[parameters('retentionSettings').weekOfYear]"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}

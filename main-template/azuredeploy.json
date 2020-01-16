@@ -3,8 +3,8 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "location": {
-           "type": "string",
-           "metadata": {
+            "type": "string",
+            "metadata": {
                 "description": "Azure location for storing deployment metadata",
                 "name": "Deployment location"
             }
@@ -15,7 +15,29 @@
         "templateBaseUrl": "https://raw.githubusercontent.com/andrewmatveychuk/azure.policy/master/linked-templates/",
 
         "linkedTemplates": {
-            "restrictAllowedLocationsPolicy": "[concat(variables('templateBaseUrl'), 'policies/definitions/general/restrict-allowed-locations/azuredeploy.json')]"
+            // Policy definitions
+
+            // General
+            "restrictAllowedLocationsPolicy": "[concat(variables('templateBaseUrl'), 'policies/definitions/general/restrict-allowed-locations/azuredeploy.json')]",
+            // Naming Convention
+            "enforceNamingForResourcePolicy": "[concat(variables('templateBaseUrl'), 'policies/definitions/naming-convention/enforce-naming-for-resource/azuredeploy.json')]",
+            "enforceNamingForResourceGroupsPolicy": "[concat(variables('templateBaseUrl'), 'policies/definitions/naming-convention/enforce-naming-for-resourcegroups/azuredeploy.json')]",
+            // Audit Azure SQL database retention policy settings
+            "longTermRetentionPolicy": "[concat(variables('templateBaseUrl'), 'policies/sql-databases/audit-sqldatabase-longTermRetentionPolicy/azuredeploy.json')]",
+            "shortTermRetentionPolicy": "[concat(variables('templateBaseUrl'), 'policies/sql-databases/audit-sqldatabase-shortTermRetentionPolicy/azuredeploy.json')]",
+            // Tags
+            "enforceResourceGroupTagsPolicy": "[concat(variables('templateBaseUrl'), 'policies/definitions/tagging/enforce-resourcegroup-tags/azuredeploy.json')]",
+            "auditSqlDatabaseCriticalityTagPolicy": "[concat(variables('templateBaseUrl'), 'policies/definitions/tagging/audit-sqldatabase-criticality-tag/azuredeploy.json')]",
+
+            // Initiative definitions
+            
+            // Naming Convention
+            "namingConventionInitiative": "[concat(variables('templateBaseUrl'), 'initiatives/definitions/naming-convention/azuredeploy.json')]",
+            // Audit Azure SQL database retention policy settings
+            "longTermRetentionInitiative": "[concat(variables('templateBaseUrl'), 'initiatives/definitions/sql-databases/longTerm-retention-policy/azuredeploy.json')]",
+            "shortTermRetentionInitiative": "[concat(variables('templateBaseUrl'), 'initiatives/definitions/sql-databases/shortTerm-retention-policy/azuredeploy.json')]",
+            // Tags
+            "taggingInitiative": "[concat(variables('templateBaseUrl'), 'initiatives/definitions/tagging/azuredeploy.json')]"
         }
     },
     "resources": [
@@ -28,6 +50,84 @@
                 "mode": "Incremental",
                 "templateLink": {
                     "uri": "[variables('linkedTemplates').restrictAllowedLocationsPolicy]",
+                    "contentVersion": "1.0.0.0"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2018-05-01",
+            "name": "enforceNamingForResourcePolicyDeployment",
+            "location": "[parameters('location')]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('linkedTemplates').enforceNamingForResourcePolicy]",
+                    "contentVersion": "1.0.0.0"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2018-05-01",
+            "name": "enforceNamingForResourceGroupsPolicyDeployment",
+            "location": "[parameters('location')]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('linkedTemplates').enforceNamingForResourceGroupsPolicy]",
+                    "contentVersion": "1.0.0.0"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2018-05-01",
+            "name": "longTermRetentionPolicyDeployment",
+            "location": "[parameters('location')]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('linkedTemplates').longTermRetentionPolicy]",
+                    "contentVersion": "1.0.0.0"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2018-05-01",
+            "name": "shortTermRetentionPolicyDeployment",
+            "location": "[parameters('location')]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('linkedTemplates').shortTermRetentionPolicy]",
+                    "contentVersion": "1.0.0.0"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2018-05-01",
+            "name": "enforceResourceGroupTagsPolicyDeployment",
+            "location": "[parameters('location')]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('linkedTemplates').enforceResourceGroupTagsPolicy]",
+                    "contentVersion": "1.0.0.0"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2018-05-01",
+            "name": "auditSqlDatabaseCriticalityTagPolicyDeployment",
+            "location": "[parameters('location')]",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('linkedTemplates').auditSqlDatabaseCriticalityTagPolicy]",
                     "contentVersion": "1.0.0.0"
                 }
             }
