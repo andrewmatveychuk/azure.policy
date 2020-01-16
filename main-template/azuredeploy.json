@@ -2,6 +2,13 @@
     "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "location": {
+           "type": "string",
+           "metadata": {
+                "description": "Azure location for storing deployment metadata",
+                "name": "Deployment location"
+            }
+        }
 
     },
     "variables": {
@@ -16,6 +23,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2018-05-01",
             "name": "restrictAllowedLocationsPolicyDeployment",
+            "location": "[parameters('location')]",
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {

@@ -37,7 +37,7 @@ stages:
             location: '$(location)'
             templateLocation: 'URL of the file'
             csmFileLink: '$(templateBaseUrl)/main-template/azuredeploy.json'
-            # csmParametersFileLink: '$(templateBaseUrl)/main-template/azuredeploy.parameters.json'
+            csmParametersFileLink: '$(templateBaseUrl)/main-template/azuredeploy.parameters.json'
             deploymentMode: 'Validation'
     
 - stage: DeployToTestEnvironment
@@ -63,5 +63,5 @@ stages:
                 location: '$(location)'
                 templateLocation: 'URL of the file'
                 csmFileLink: '$(templateBaseUrl)/main-template/azuredeploy.json'
-                # csmParametersFileLink: '$(templateBaseUrl)/main-template/azuredeploy.parameters.json'
+                csmParametersFileLink: '$(templateBaseUrl)/main-template/azuredeploy.parameters.json'
                 deploymentMode: 'Incremental'
