@@ -1,27 +1,5 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentParameters.json#",
     "contentVersion": "1.0.0.0",
-    "parameters": {
-        "applicationPrefix": {
-            "value": "test"
-        },
-        "functionAppRuntimeStack": {
-            "value": "dotnet"
-        },
-        "functionAppTimeZone": {
-            "value": "Central Europe Standard Time"
-        },
-        "logAnalyticsWorkspaceSKU": {
-            "value": "Free"
-        },
-        "serviceBusNamespaceSKU": {
-            "value": "Basic"
-        },
-        "_artifactsLocation": {
-            "value": ""
-        },
-        "_artifactsLocationSasToken": {
-            "value": ""
-        }
-    }
+    "parameters": {}
 }

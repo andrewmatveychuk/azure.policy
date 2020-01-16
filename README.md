@@ -1,9 +1,13 @@
 # azure.policy
 Sample ARM templates for Azure policy and policy initiative definitions.
 
-Before starting to work with these templates, read the information in the following blog posts:
+Before starting to work with these templates, read the information in the following blog posts according to your points of interest:
 
 * [How to deploy Azure Policies with ARM templates](https://andrewmatveychuk.com/how-to-deploy-azure-policies-with-arm-templates/)
+* [Using ARM templates to deploy Azure Policy initiatives](https://andrewmatveychuk.com/using-arm-templates-to-deploy-azure-policy-initiatives/)
+* [How to enforce naming convention for Azure resources](https://andrewmatveychuk.com/how-to-enforce-naming-convention-for-azure-resources/)
+* [Automatic tagging for Azure resources](https://andrewmatveychuk.com/automatic-tagging-for-azure-resources/)
+* [How to ensure proper configuration for your Azure resources](https://andrewmatveychuk.com/how-to-ensure-proper-configuration-for-your-azure-resources/)
 
 ## Build status
 
@@ -13,9 +17,8 @@ Before starting to work with these templates, read the information in the follow
 
 To start working with this project, clone the repository to your local machine and look for the artifacts in the specific folders:
 
-* policies - contains sample ARM templates and deployment scripts for policy definitions and their assignments grouped by logical area
-* initiatives - contains sample ARM templates and deployment scripts for policy initiatives and their assignments
-* resource-groups - contains the ARM templates and deployment script for a resource group to be used during policy testing
+* linked templates - contains sample ARM templates for policy and initiative definitions plus their assignments grouped by logical area
+* main-template - contains master ARM template to perform deployments of all policies and initiatives to a subscription
 
 ## Build and Test
 
