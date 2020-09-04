@@ -142,8 +142,8 @@
             "name": "namingConventionInitiativeDeployment",
             "location": "[parameters('location')]",
             "dependsOn": [
-                "enforceNamingForResourcePolicyDeployment",
-                "enforceNamingForResourceGroupsPolicyDeployment"
+                "Microsoft.Resources/deployments/enforceNamingForResourcePolicyDeployment",
+                "Microsoft.Resources/deployments/enforceNamingForResourceGroupsPolicyDeployment"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -159,7 +159,7 @@
             "name": "longTermRetentionInitiativeDeployment",
             "location": "[parameters('location')]",
             "dependsOn": [
-                "longTermRetentionPolicyDeployment"
+                "Microsoft.Resources/deployments/longTermRetentionPolicyDeployment"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -175,7 +175,7 @@
             "name": "shortTermRetentionInitiativeDeployment",
             "location": "[parameters('location')]",
             "dependsOn": [
-                "shortTermRetentionPolicyDeployment"
+                "Microsoft.Resources/deployments/shortTermRetentionPolicyDeployment"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -191,7 +191,7 @@
             "name": "taggingInitiativeDeployment",
             "location": "[parameters('location')]",
             "dependsOn": [
-                "enforceResourceGroupTagsPolicyDeployment"
+                "Microsoft.Resources/deployments/enforceResourceGroupTagsPolicyDeployment"
             ],
             "properties": {
                 "mode": "Incremental",
