@@ -1,0 +1,208 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "targetManagementGroup": {
+            "type": "string",
+            "metadata": {
+                "name": "Target management group",
+                "description": "A management group where referenced policy definitions are deployed."
+            }
+        }
+    },
+    "variables": {
+        "policySetName": "tag-governance-psd",
+        "policySetDisplayName": "Tag Governance",
+        "policySetDescription": "Ensure using specific tags for resources and resource groups",
+
+        "policyDefinitionForAuditingResourceTag": "audit-resource-tag-pd",
+        "policyDefinitionForAuditingResourceTagAndItsFormat": "audit-resource-tag-and-value-format-pd",
+        "policyDefinitionForAuditingResourceTagAndItsMatch": "audit-resource-tag-and-value-match-pd",
+        "policyDefinitionForAuditingResourceGroupTag": "audit-resource-group-tag-pd",
+        "policyDefinitionForAuditingResourceGroupTagAndItsFormat": "audit-resource-group-tag-and-value-format-pd",
+        "policyDefinitionForAuditingResourceGroupTagAndItsMatch": "audit-resource-group-tag-and-value-match-pd"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Authorization/policySetDefinitions",
+            "apiVersion": "2019-09-01",
+            "name": "[variables('policySetName')]",
+            "properties": {
+                "displayName": "[variables('policySetDisplayName')]",
+                "description": "[variables('policySetDescription')]",
+                "policyType": "Custom",
+                "metadata": {
+                    "category": "Tags"
+                },
+                "parameters": {
+                    "ownerTagName": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Owner tag name",
+                            "description": "Tag name to validate"
+                        }
+                    },
+                    "ownerTagFormat": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Owner tag format",
+                            "description": "Format for tag value validation ('like' condition)"
+                        }
+                    },
+                    "costCenterTagName": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Cost Center tag name",
+                            "description": "Tag name to validate"
+                        }
+                    },
+                    "projectTagName": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Project tag name",
+                            "description": "Tag name to validate"
+                        }
+                    },
+                    "supportTeamTagName": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Support Team tag name",
+                            "description": "Tag name to validate"
+                        }
+                    },
+                    "supportTeamTagFormat": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Support Team tag format",
+                            "description": "Format for tag value validation ('like' condition)"
+                        }
+                    },
+                    "createdDateTagName": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Created Date tag name",
+                            "description": "Tag name to validate"
+                        }
+                    },
+                    "createdDateTagPattern": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Created Date tag pattern",
+                            "description": "Pattern to tag validation ('match' condition)"
+                        }
+                    }
+                },
+                "policyDefinitions": [
+                    {
+                        "policyDefinitionId": "[concat(tenantResourceId('Microsoft.Management/managementGroups', parameters('targetManagementGroup')), '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForAuditingResourceTagAndItsFormat'))]",
+                        "policyDefinitionReferenceId": "Audit a valid 'Owner' tag is applied to resources",
+                        "parameters": {
+                            "tagName": {
+                                "value": "[[parameters('ownerTagName')]"
+                            },
+                            "tagFormat": {
+                                "value": "[[parameters('ownerTagFormat')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(tenantResourceId('Microsoft.Management/managementGroups', parameters('targetManagementGroup')), '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForAuditingResourceGroupTagAndItsFormat'))]",
+                        "policyDefinitionReferenceId": "Audit a valid 'Owner' tag is applied to resource groups",
+                        "parameters": {
+                            "tagName": {
+                                "value": "[[parameters('ownerTagName')]"
+                            },
+                            "tagFormat": {
+                                "value": "[[parameters('ownerTagFormat')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(tenantResourceId('Microsoft.Management/managementGroups', parameters('targetManagementGroup')), '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForAuditingResourceTag'))]",
+                        "policyDefinitionReferenceId": "Audit a 'Cost Center' tag is applied to resources",
+                        "parameters": {
+                            "tagName": {
+                                "value": "[[parameters('costCenterTagName')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(tenantResourceId('Microsoft.Management/managementGroups', parameters('targetManagementGroup')), '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForAuditingResourceGroupTag'))]",
+                        "policyDefinitionReferenceId": "Audit a 'Cost Center' tag is applied to resource groups",
+                        "parameters": {
+                            "tagName": {
+                                "value": "[[parameters('costCenterTagName')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(tenantResourceId('Microsoft.Management/managementGroups', parameters('targetManagementGroup')), '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForAuditingResourceTag'))]",
+                        "policyDefinitionReferenceId": "Audit a 'Project' tag is applied to resources",
+                        "parameters": {
+                            "tagName": {
+                                "value": "[[parameters('projectTagName')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(tenantResourceId('Microsoft.Management/managementGroups', parameters('targetManagementGroup')), '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForAuditingResourceGroupTag'))]",
+                        "policyDefinitionReferenceId": "Audit a 'Project' tag is applied to resource groups",
+                        "parameters": {
+                            "tagName": {
+                                "value": "[[parameters('projectTagName')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(tenantResourceId('Microsoft.Management/managementGroups', parameters('targetManagementGroup')), '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForAuditingResourceTagAndItsFormat'))]",
+                        "policyDefinitionReferenceId": "Audit a valid 'Support Team' tag is applied to resources",
+                        "parameters": {
+                            "tagName": {
+                                "value": "[[parameters('supportTeamTagName')]"
+                            },
+                            "tagFormat": {
+                                "value": "[[parameters('supportTeamTagFormat')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(tenantResourceId('Microsoft.Management/managementGroups', parameters('targetManagementGroup')), '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForAuditingResourceGroupTagAndItsFormat'))]",
+                        "policyDefinitionReferenceId": "Audit a valid 'Support Team' tag is applied to resource groups",
+                        "parameters": {
+                            "tagName": {
+                                "value": "[[parameters('supportTeamTagName')]"
+                            },
+                            "tagFormat": {
+                                "value": "[[parameters('supportTeamTagFormat')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(tenantResourceId('Microsoft.Management/managementGroups', parameters('targetManagementGroup')), '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForAuditingResourceTagAndItsMatch'))]",
+                        "policyDefinitionReferenceId": "Audit a valid 'Created Date' tag is applied to resources",
+                        "parameters": {
+                            "tagName": {
+                                "value": "[[parameters('createdDateTagName')]"
+                            },
+                            "tagPattern": {
+                                "value": "[[parameters('createdDateTagPattern')]"
+                            }
+                        }
+                    },
+                    {
+                        "policyDefinitionId": "[concat(tenantResourceId('Microsoft.Management/managementGroups', parameters('targetManagementGroup')), '/providers/Microsoft.Authorization/policyDefinitions/', variables('policyDefinitionForAuditingResourceGroupTagAndItsMatch'))]",
+                        "policyDefinitionReferenceId": "Audit a valid 'Created Date' tag is applied to resource groups",
+                        "parameters": {
+                            "tagName": {
+                                "value": "[[parameters('createdDateTagName')]"
+                            },
+                            "tagPattern": {
+                                "value": "[[parameters('createdDateTagPattern')]"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

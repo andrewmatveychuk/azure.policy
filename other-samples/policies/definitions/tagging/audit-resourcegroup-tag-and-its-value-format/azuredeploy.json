@@ -1,0 +1,60 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+
+    "variables": {
+        "policyName": "audit-resource-group-tag-and-value-format-pd",
+        "policyDisplayName": "Audit a tag and its value format on resource groups",
+        "policyDescription": "Audits existence of a tag and its value format. Does not apply to individual resources."
+    },
+
+    "resources": [
+        {
+            "type": "Microsoft.Authorization/policyDefinitions",
+            "name": "[variables('policyName')]",
+            "apiVersion": "2019-09-01",
+            "properties": {
+                "displayName": "[variables('policyDisplayName')]",
+                "policyType": "Custom",
+                "description": "[variables('policyDescription')]",
+                "metadata": {
+                    "category": "Tags"
+                },
+                "parameters": {
+                    "tagName": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Tag name",
+                            "description": "A tag to audit"
+                        }
+                    },
+                    "tagFormat": {
+                        "type": "string",
+                        "metadata": {
+                            "displayName": "Tag format",
+                            "description": "An expressions for 'like' condition"
+                        }
+                    }
+                },
+                "mode": "All",
+                "policyRule": {
+                    "if": {
+                        "allOf": [
+                            {
+                                "field": "type",
+                                "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+                            },
+                            {
+                                "field": "[[concat('tags[', parameters('tagName'), ']')]",
+                                "like": "[[parameters('tagFormat')]"
+                            }
+                        ]
+                    },
+                    "then": {
+                        "effect": "Audit"
+                    }
+                }
+            }
+        }
+    ]
+}
