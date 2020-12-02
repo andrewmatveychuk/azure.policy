@@ -40,7 +40,7 @@
                 "policyRule": {
                     "if": {
                         "field": "[[concat('tags[', parameters('tagName'), ']')]",
-                        "match": "[[parameters('tagPattern')]"
+                        "notMatch": "[[parameters('tagPattern')]"
                     },
                     "then": {
                         "effect": "Audit"

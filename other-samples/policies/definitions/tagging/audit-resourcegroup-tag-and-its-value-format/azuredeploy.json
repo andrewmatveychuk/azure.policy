@@ -46,7 +46,7 @@
                             },
                             {
                                 "field": "[[concat('tags[', parameters('tagName'), ']')]",
-                                "like": "[[parameters('tagFormat')]"
+                                "notLike": "[[parameters('tagFormat')]"
                             }
                         ]
                     },
