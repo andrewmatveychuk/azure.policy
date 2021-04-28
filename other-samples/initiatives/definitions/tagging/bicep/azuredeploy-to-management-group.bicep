@@ -10,14 +10,30 @@ var policySetName = 'tag-governance-psd'
 var policySetDisplayName = 'Tag Governance'
 var policySetDescription = 'Ensure using specific tags for resources and resource groups'
 
-var policyDefinitionForAuditingResourceTag = 'audit-resource-tag-pd'
-var policyDefinitionForAuditingResourceTagAndItsFormat = 'audit-resource-tag-and-value-format-pd'
-var policyDefinitionForAuditingResourceTagAndItsMatch = 'audit-resource-tag-and-value-match-pd'
-var policyDefinitionForAuditingResourceGroupTag = 'audit-resource-group-tag-pd'
-var policyDefinitionForAuditingResourceGroupTagAndItsFormat = 'audit-resource-group-tag-and-value-format-pd'
-var policyDefinitionForAuditingResourceGroupTagAndItsMatch = 'audit-resource-group-tag-and-value-match-pd'
+var mgScope = tenantResourceId('Microsoft.Management/managementGroups', targetManagementGroup)
 
-resource policy 'Microsoft.Authorization/policySetDefinitions@2020-09-01' = {
+// Defining the existing policies to reference in the policy set definition
+resource policyDefinitionForAuditingResourceTag 'Microsoft.Authorization/policyDefinitions@2020-09-01' existing = {
+  name: 'audit-resource-tag-pd'
+}
+resource policyDefinitionForAuditingResourceTagAndItsFormat 'Microsoft.Authorization/policyDefinitions@2020-09-01' existing = {
+  name: 'audit-resource-tag-and-value-format-pd'
+}
+resource policyDefinitionForAuditingResourceTagAndItsMatch 'Microsoft.Authorization/policyDefinitions@2020-09-01' existing = {
+  name: 'audit-resource-tag-and-value-match-pd'
+}
+resource policyDefinitionForAuditingResourceGroupTag 'Microsoft.Authorization/policyDefinitions@2020-09-01' existing = {
+  name: 'audit-resource-group-tag-pd'
+}
+resource policyDefinitionForAuditingResourceGroupTagAndItsFormat 'Microsoft.Authorization/policyDefinitions@2020-09-01' existing = {
+  name: 'audit-resource-group-tag-and-value-format-pd'
+}
+resource policyDefinitionForAuditingResourceGroupTagAndItsMatch 'Microsoft.Authorization/policyDefinitions@2020-09-01' existing = {
+  name: 'audit-resource-group-tag-and-value-match-pd'
+}
+
+// Policy set definition aka policy initiative
+resource policyInitiative 'Microsoft.Authorization/policySetDefinitions@2020-09-01' = {
   name: policySetName
   properties: {
     displayName: policySetDisplayName
@@ -88,7 +104,7 @@ resource policy 'Microsoft.Authorization/policySetDefinitions@2020-09-01' = {
 
     policyDefinitions: [
       {
-        policyDefinitionId: 'Microsoft.Management/managementGroups/${targetManagementGroup}/providers/Microsoft.Authorization/policyDefinitions/${policyDefinitionForAuditingResourceTagAndItsFormat}'
+        policyDefinitionId: extensionResourceId(mgScope, 'Microsoft.Authorization/policyDefinitions', policyDefinitionForAuditingResourceTagAndItsFormat.name)
         policyDefinitionReferenceId: 'Audit a valid \'Owner\' tag is applied to resources'
         parameters: {
           tagName: {
@@ -100,7 +116,7 @@ resource policy 'Microsoft.Authorization/policySetDefinitions@2020-09-01' = {
         }
       }
       {
-        policyDefinitionId: 'Microsoft.Management/managementGroups/${targetManagementGroup}/providers/Microsoft.Authorization/policyDefinitions/${policyDefinitionForAuditingResourceGroupTagAndItsFormat}'
+        policyDefinitionId: extensionResourceId(mgScope, 'Microsoft.Authorization/policyDefinitions', policyDefinitionForAuditingResourceGroupTagAndItsFormat.name)
         policyDefinitionReferenceId: 'Audit a valid \'Owner\' tag is applied to resource groups'
         parameters: {
           tagName: {
@@ -112,7 +128,7 @@ resource policy 'Microsoft.Authorization/policySetDefinitions@2020-09-01' = {
         }
       }
       {
-        policyDefinitionId: 'Microsoft.Management/managementGroups/${targetManagementGroup}/providers/Microsoft.Authorization/policyDefinitions/${policyDefinitionForAuditingResourceTag}'
+        policyDefinitionId: extensionResourceId(mgScope, 'Microsoft.Authorization/policyDefinitions', policyDefinitionForAuditingResourceTag.name)
         policyDefinitionReferenceId: 'Audit a \'Cost Center\' tag is applied to resources'
         parameters: {
           tagName: {
@@ -121,7 +137,7 @@ resource policy 'Microsoft.Authorization/policySetDefinitions@2020-09-01' = {
         }
       }
       {
-        policyDefinitionId: 'Microsoft.Management/managementGroups/${targetManagementGroup}/providers/Microsoft.Authorization/policyDefinitions/${policyDefinitionForAuditingResourceGroupTag}'
+        policyDefinitionId: extensionResourceId(mgScope, 'Microsoft.Authorization/policyDefinitions', policyDefinitionForAuditingResourceGroupTag.name)
         policyDefinitionReferenceId: 'Audit a \'Cost Center\' tag is applied to resource groups'
         parameters: {
           tagName: {
@@ -130,7 +146,7 @@ resource policy 'Microsoft.Authorization/policySetDefinitions@2020-09-01' = {
         }
       }
       {
-        policyDefinitionId: 'Microsoft.Management/managementGroups/${targetManagementGroup}/providers/Microsoft.Authorization/policyDefinitions/${policyDefinitionForAuditingResourceTag}'
+        policyDefinitionId: extensionResourceId(mgScope, 'Microsoft.Authorization/policyDefinitions', policyDefinitionForAuditingResourceTag.name)
         policyDefinitionReferenceId: 'Audit a \'Project\' tag is applied to resources'
         parameters: {
           tagName: {
@@ -139,7 +155,7 @@ resource policy 'Microsoft.Authorization/policySetDefinitions@2020-09-01' = {
         }
       }
       {
-        policyDefinitionId: 'Microsoft.Management/managementGroups/${targetManagementGroup}/providers/Microsoft.Authorization/policyDefinitions/${policyDefinitionForAuditingResourceGroupTag}'
+        policyDefinitionId: extensionResourceId(mgScope, 'Microsoft.Authorization/policyDefinitions', policyDefinitionForAuditingResourceGroupTag.name)
         policyDefinitionReferenceId: 'Audit a \'Project\' tag is applied to resource groups'
         parameters: {
           tagName: {
@@ -148,7 +164,7 @@ resource policy 'Microsoft.Authorization/policySetDefinitions@2020-09-01' = {
         }
       }
       {
-        policyDefinitionId: 'Microsoft.Management/managementGroups/${targetManagementGroup}/providers/Microsoft.Authorization/policyDefinitions/${policyDefinitionForAuditingResourceTagAndItsFormat}'
+        policyDefinitionId: extensionResourceId(mgScope, 'Microsoft.Authorization/policyDefinitions', policyDefinitionForAuditingResourceTagAndItsFormat.name)
         policyDefinitionReferenceId: 'Audit a valid \'Support Team\' tag is applied to resources'
         parameters: {
           tagName: {
@@ -160,7 +176,7 @@ resource policy 'Microsoft.Authorization/policySetDefinitions@2020-09-01' = {
         }
       }
       {
-        policyDefinitionId: 'Microsoft.Management/managementGroups/${targetManagementGroup}/providers/Microsoft.Authorization/policyDefinitions/${policyDefinitionForAuditingResourceGroupTagAndItsFormat}'
+        policyDefinitionId: extensionResourceId(mgScope, 'Microsoft.Authorization/policyDefinitions', policyDefinitionForAuditingResourceGroupTagAndItsFormat.name)
         policyDefinitionReferenceId: 'Audit a valid \'Support Team\' tag is applied to resource groups'
         parameters: {
           tagName: {
@@ -172,7 +188,7 @@ resource policy 'Microsoft.Authorization/policySetDefinitions@2020-09-01' = {
         }
       }
       {
-        policyDefinitionId: 'Microsoft.Management/managementGroups/${targetManagementGroup}/providers/Microsoft.Authorization/policyDefinitions/${policyDefinitionForAuditingResourceTagAndItsMatch}'
+        policyDefinitionId: extensionResourceId(mgScope, 'Microsoft.Authorization/policyDefinitions', policyDefinitionForAuditingResourceTagAndItsMatch.name)
         policyDefinitionReferenceId: 'Audit a valid \'Created Date\' tag is applied to resources'
         parameters: {
           tagName: {
@@ -184,7 +200,7 @@ resource policy 'Microsoft.Authorization/policySetDefinitions@2020-09-01' = {
         }
       }
       {
-        policyDefinitionId: 'Microsoft.Management/managementGroups/${targetManagementGroup}/providers/Microsoft.Authorization/policyDefinitions/${policyDefinitionForAuditingResourceGroupTagAndItsMatch}'
+        policyDefinitionId: extensionResourceId(mgScope, 'Microsoft.Authorization/policyDefinitions', policyDefinitionForAuditingResourceGroupTagAndItsMatch.name)
         policyDefinitionReferenceId: 'Audit a valid \'Created Date\' tag is applied to resource groups'
         parameters: {
           tagName: {
