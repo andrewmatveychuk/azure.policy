@@ -57,7 +57,7 @@ resource policy 'Microsoft.Authorization/policyDefinitions@2021-06-01' = {
             in: '[parameters(\'imageOffers\')]'
           }
           {
-            field: 'Microsoft.Compute/licenseType'
+            field: 'Microsoft.Compute/virtualMachines/licenseType'
             notEquals: 'Windows_Server'
           }
         ]
