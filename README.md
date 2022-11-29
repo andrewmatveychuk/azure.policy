@@ -4,7 +4,8 @@ Sample ARM and [Bicep](https://github.com/Azure/bicep)(!) templates for Azure po
 
 Before starting to work with these templates, read the information in the following blog posts according to your points of interest:
 
-* [[New] How to deploy Azure Policy with Bicep](https://andrewmatveychuk.com/how-to-deploy-azure-policy-with-bicep/)
+* [Audit and Enable Azure Hybrid Benefit using Azure Policy](https://andrewmatveychuk.com/audit-and-enable-azure-hybrid-benefit-using-azure-policy/)
+* [How to deploy Azure Policy with Bicep](https://andrewmatveychuk.com/how-to-deploy-azure-policy-with-bicep/)
 * [How to deploy Azure Policies with ARM templates](https://andrewmatveychuk.com/how-to-deploy-azure-policies-with-arm-templates/)
 * [Using ARM templates to deploy Azure Policy initiatives](https://andrewmatveychuk.com/using-arm-templates-to-deploy-azure-policy-initiatives/)
 * [How to enforce naming convention for Azure resources](https://andrewmatveychuk.com/how-to-enforce-naming-convention-for-azure-resources/)
