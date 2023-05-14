@@ -1,0 +1,69 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.17.1.54307",
+      "templateHash": "4764295033425556418"
+    }
+  },
+  "variables": {
+    "policyName": "require-createddate-tag-pd",
+    "policyDisplayName": "Require Created Date tag on resources",
+    "policyDescription": "Audits existence of the tag in a specific format. Does not apply to resource groups."
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Authorization/policyDefinitions",
+      "apiVersion": "2021-06-01",
+      "name": "[variables('policyName')]",
+      "properties": {
+        "displayName": "[variables('policyDisplayName')]",
+        "description": "[variables('policyDescription')]",
+        "policyType": "Custom",
+        "mode": "Indexed",
+        "metadata": {
+          "category": "Tags"
+        },
+        "parameters": {
+          "tagName": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Tag name",
+              "description": "A tag to audit"
+            }
+          },
+          "tagPattern": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Tag pattern",
+              "description": "An expressions for \"notMatch\" condition"
+            }
+          },
+          "policyEffect": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Policy effect",
+              "description": "Audit or deny resources without the tag"
+            },
+            "allowedValues": [
+              "Audit",
+              "Deny"
+            ],
+            "defaultValue": "Audit"
+          }
+        },
+        "policyRule": {
+          "if": {
+            "field": "[[concat('tags[', parameters('tagName'), ']')]",
+            "notMatch": "[[parameters('tagPattern')]"
+          },
+          "then": {
+            "effect": "[[parameters('policyEffect')]"
+          }
+        }
+      }
+    }
+  ]
+}

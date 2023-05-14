@@ -1,0 +1,69 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-08-01/managementGroupDeploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.17.1.54307",
+      "templateHash": "1871192976274443942"
+    }
+  },
+  "variables": {
+    "policyName": "require-dataprofile-tag-pd",
+    "policyDisplayName": "Require Data Profile tag on resources",
+    "policyDescription": "Audits existence of the tag in a specific format. Does not apply to resource groups."
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Authorization/policyDefinitions",
+      "apiVersion": "2021-06-01",
+      "name": "[variables('policyName')]",
+      "properties": {
+        "displayName": "[variables('policyDisplayName')]",
+        "description": "[variables('policyDescription')]",
+        "policyType": "Custom",
+        "mode": "Indexed",
+        "metadata": {
+          "category": "Tags"
+        },
+        "parameters": {
+          "tagName": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Tag name",
+              "description": "A tag to audit"
+            }
+          },
+          "tagAllowedValues": {
+            "type": "Array",
+            "metadata": {
+              "displayName": "Tag allowed values",
+              "description": "List of allowed options"
+            }
+          },
+          "policyEffect": {
+            "type": "String",
+            "metadata": {
+              "displayName": "Policy effect",
+              "description": "Audit or deny resources without the tag"
+            },
+            "allowedValues": [
+              "Audit",
+              "Deny"
+            ],
+            "defaultValue": "Audit"
+          }
+        },
+        "policyRule": {
+          "if": {
+            "field": "[[concat('tags[', parameters('tagName'), ']')]",
+            "notIn": "[[parameters('tagAllowedValues')]"
+          },
+          "then": {
+            "effect": "[[parameters('policyEffect')]"
+          }
+        }
+      }
+    }
+  ]
+}
