@@ -10,6 +10,7 @@ Before starting to work with these templates, read the information in the follow
 * [Using ARM templates to deploy Azure Policy initiatives](https://andrewmatveychuk.com/using-arm-templates-to-deploy-azure-policy-initiatives/)
 * [How to enforce naming convention for Azure resources](https://andrewmatveychuk.com/how-to-enforce-naming-convention-for-azure-resources/)
 * [Automatic tagging for Azure resources](https://andrewmatveychuk.com/automatic-tagging-for-azure-resources/)
+* [How to validate Azure tags](https://andrewmatveychuk.com/how-to-validate-azure-tags/)
 * [How to ensure proper configuration for your Azure resources](https://andrewmatveychuk.com/how-to-ensure-proper-configuration-for-your-azure-resources/)
 
 ## Build status
