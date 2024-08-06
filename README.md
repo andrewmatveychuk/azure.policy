@@ -2,16 +2,22 @@
 
 Sample ARM and [Bicep](https://github.com/Azure/bicep)(!) templates for Azure policy and policy initiative definitions.
 
-Before starting to work with these templates, read the information in the following blog posts according to your points of interest:
+Before starting to work with these templates, read the information in the following blog posts according to your interests:
 
+* [Naming convention for Azure resources](https://andrewmatveychuk.com/naming-convention-for-azure-resources/)
+* [How to validate Azure tags](https://andrewmatveychuk.com/how-to-validate-azure-tags/)
+* _[Azure Policy Best Practices](https://andrewmatveychuk.com/azure-policy-best-practices/)_
 * [Audit and Enable Azure Hybrid Benefit using Azure Policy](https://andrewmatveychuk.com/audit-and-enable-azure-hybrid-benefit-using-azure-policy/)
 * [How to deploy Azure Policy with Bicep](https://andrewmatveychuk.com/how-to-deploy-azure-policy-with-bicep/)
-* [How to deploy Azure Policies with ARM templates](https://andrewmatveychuk.com/how-to-deploy-azure-policies-with-arm-templates/)
-* [Using ARM templates to deploy Azure Policy initiatives](https://andrewmatveychuk.com/using-arm-templates-to-deploy-azure-policy-initiatives/)
-* [How to enforce naming convention for Azure resources](https://andrewmatveychuk.com/how-to-enforce-naming-convention-for-azure-resources/)
-* [Automatic tagging for Azure resources](https://andrewmatveychuk.com/automatic-tagging-for-azure-resources/)
-* [How to validate Azure tags](https://andrewmatveychuk.com/how-to-validate-azure-tags/)
+* _[Azure Policy: Starter Guide](https://andrewmatveychuk.com/azure-policy-starter-guide/)_
+* [Practical aspects of running a _CMDB_ for Azure resources: Tips](https://andrewmatveychuk.com/practical-aspects-of-running-a-cmdb-for-azure-resources-tips/)
+* [Practical aspects of running a _CMDB_ for Azure resources: Fundamentals](https://andrewmatveychuk.com/practical-aspects-of-running-a-cmdb-for-azure-resources-fundamentals/)
+* [How to deploy Azure Policy from an Azure DevOps pipeline](https://andrewmatveychuk.com/how-to-deploy-azure-policy-from-an-azure-devops-pipeline/)
 * [How to ensure proper configuration for your Azure resources](https://andrewmatveychuk.com/how-to-ensure-proper-configuration-for-your-azure-resources/)
+* [Automatic tagging for Azure resources](https://andrewmatveychuk.com/automatic-tagging-for-azure-resources/)
+* [How to enforce naming convention for Azure resources](https://andrewmatveychuk.com/how-to-enforce-naming-convention-for-azure-resources/)
+* [Using ARM templates to deploy Azure Policy initiatives](https://andrewmatveychuk.com/using-arm-templates-to-deploy-azure-policy-initiatives/)
+* [How to deploy Azure Policies with ARM templates](https://andrewmatveychuk.com/how-to-deploy-azure-policies-with-arm-templates/)
 
 ## Build status
 
