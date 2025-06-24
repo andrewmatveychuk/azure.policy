@@ -4,7 +4,7 @@ Sample ARM and [Bicep](https://github.com/Azure/bicep)(!) templates for Azure po
 
 Before starting to work with these templates, read the information in the following blog posts according to your interests:
 
-* [How to test Azure Policy](https://andrewmatveychuk.com/naming-convention-for-azure-resources/)
+* [How to test Azure Policy](https://andrewmatveychuk.com/how-to-test-azure-policy)
 * [Naming convention for Azure resources](https://andrewmatveychuk.com/naming-convention-for-azure-resources/)
 * [How to validate Azure tags](https://andrewmatveychuk.com/how-to-validate-azure-tags/)
 * _[Azure Policy Best Practices](https://andrewmatveychuk.com/azure-policy-best-practices/)_
