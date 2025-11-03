@@ -1,6 +1,6 @@
-# azure.policy
+# Azure Policy-as-Code
 
-Sample ARM and [Bicep](https://github.com/Azure/bicep)(!) templates for Azure policy and policy initiative definitions.
+Sample [Bicep](https://github.com/Azure/bicep)(!) and ARM(obsolete) templates for Azure policy and policy initiative definitions.
 
 Before starting to work with these templates, read the information in the following blog posts according to your interests:
 
